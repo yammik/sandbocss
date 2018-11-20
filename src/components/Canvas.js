@@ -18,6 +18,9 @@ class Canvas extends Component {
       y: 10,
     };
   }
+
+  // for each div in this.prop.divs, render a <Rnd /> with the appropriate size and position
+  // when saving attributes of the div, save numbers as numbers; makes it easier for math. Append 'px' when outputting code
   render() {
     return (
       <div id="sandbox">

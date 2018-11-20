@@ -9,13 +9,25 @@ class Output extends Component {
   }
 
   componentDidUpdate(prevState, prevProps) {
-    // this.props.
+    // iterate through this.props.divs to generate code
+    // each div will have the following structure:
+    // div1 = { key: '', className: '', width: n, height: m, x: a, y: b } x being left, y being top
+    let output = '';
+    this.props.divs.forEach(div => {
+      output += `.${div.className} {\n  position: absolute;\n  width: ${div.width}px;\n  height: ${div.height}px;\n  top: ${div.y}px;\n  left: ${div.x}px;\n}`
+    })
+    console.log(output);
+    this.setState({
+      code: output,
+    })
   }
 
   render() {
     return (
       <div>
+        <p>
 
+        </p>
       </div>
     )
   }
@@ -28,8 +40,8 @@ export default Output;
 //     position: absolute;
 //     user-select: auto;
 //     touch-action: none;
-//     width: 200px; <- this.state.width
-//     height: 200px; <- this.state.height
+//     width: 200px; <- this.props.width
+//     height: 200px; <- this.props.height
 //     display: inline-block;
 //     top: 0px;
 //     left: 0px;

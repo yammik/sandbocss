@@ -30,3 +30,29 @@
     transform: rotate(360deg);
   }
 }
+
+
+.resizable {
+  border: 1px solid;
+  transition: background-color 0.3s ease;
+  position: relative;
+
+}
+
+.resizable:hover {
+  background-color: #ddd;
+}
+
+.resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 0;
+  right: 0;
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: se-resize;
+}

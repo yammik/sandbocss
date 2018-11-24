@@ -13,21 +13,23 @@ class Output extends Component {
     // each div will have the following structure:
     // div1 = { key: '', className: '', width: n, height: m, x: a, y: b } x being left, y being top
     let output = '';
-    this.props.divs.forEach(div => {
-      output += `.${div.className} {\n  position: absolute;\n  width: ${div.width}px;\n  height: ${div.height}px;\n  top: ${div.y}px;\n  left: ${div.x}px;\n}`
+    this.props.divs.map(div => {
+      output += `.${div.className} {\n  position: absolute;\n  width: ${div.width}px;\n  height: ${div.height}px;\n  top: ${div.y}px;\n  left: ${div.x}px;\n}\n\n`
     })
     console.log(output);
-    this.setState({
-      code: output,
-    })
+    // this.setState({
+    //   code: output,
+    // })
   }
 
   render() {
     return (
-      <div>
+      <div id="output">
         <p>
-
+          {this.state.code}
         </p>
+        <code>
+        </code>
       </div>
     )
   }

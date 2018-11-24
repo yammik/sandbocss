@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Navbar from "./components/Navbar";
-import Sandbox from "./components/Sandbox"
+import Container from "./components/Container"
 
 
 class App extends Component {
@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <>
         <Navbar />
-        <Sandbox />
+        <Container />
       </>
     );
   }

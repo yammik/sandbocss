@@ -1,65 +1,57 @@
 import React, { Component } from 'react';
-import Controls from "./Controls"
-import Output from "./Output"
-import Canvas from "./Canvas"
+import { Rnd } from "react-rnd";
 
-// sandbox must keep track of divs and their attributes in state
-// sandbox has button to create div with unique id which will be used to search for and update the corresponding object in state.divs
-// sandbox gets information for each div from Canvas : as div state in Canvas is updated, state.divs is updated in Sandbox
-// sandbox must know the currently selected div in order to link to Controls
-// sandbox has state to store information about currently selected div
-// sandbox will pass in prop functions to Controls
+const style = {
+  alignItems: "center",
+  justifyContent: "center",
+  border: "solid 1px #ddd",
+};
+
 class Sandbox extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      divs: [],
-      current: null,
-      xi: 0,
-      yi: 0,
-      xf: 0,
-      yf: 0,
-    }
+      currentElement: '',
+      width: 200,
+      height: 200,
+      x: 0,
+      y: 0,
+    };
   }
 
-  updateInitialCoords = (x, y) => {
-    this.setState({
-      xi: x,
-      yi: y,
-    })
-  }
-
-  updateFinalCoords = (x, y) => {
-    this.setState({
-      xf: x,
-      yf: y,
-    })
-  }
-
-  updateDiv = (key, className='', width=0, height=0, x=0, y=0) => {
-    this.setState({
-      divs: [...this.state.divs.filter(div => div.key !== key), {
-        key: key,
-        className: className,
-        width: width,
-        height: height,
-        x: x,
-        y: y,
-      }],
-    })
-  }
-
+  // for each div in this.prop.divs, render a <Rnd /> with the appropriate size and position
+  // when saving attributes of the div, save numbers as numbers; makes it easier for math. Append 'px' when outputting code
   render() {
-    const { divs } = this.state;
+    const { divs, updateDiv } = this.props;
     return (
-      <div>
-        <Controls updateDiv={this.updateDiv} />
-        <Canvas divs={divs} />
-        <Output divs={divs} />
+      <div id="sandbox">
+        {divs.map(div =>
+          <Rnd
+            key={div.key}
+            className="resizable"
+            style={style}
+            size={{ width: div.width, height: div.height }}
+            position={{ x: div.x, y: div.y }}
+            onDragStop={(e, d) => {
+              updateDiv(div.key, 'resizable', div.width, div.height, d.x, d.y);
+            }}
+            onResize={(e, direction, ref, delta, position) => {
+              updateDiv(div.key, 'resizable', ref.style.width, ref.style.height, position.x, position.y);
+            }}
+            ><div>
+              width: {div.width}, height: {div.height}
+            </div>
+            <br></br>
+            <div>
+              x: {Math.floor(div.x)}, y: {Math.floor(div.y)}
+            </div>
+          </Rnd>
+        )}
       </div>
     )
   }
-
 }
 
 export default Sandbox;
+
+// make a div this.props.divs.forEach with div.className, div.width, div.height, div.x, div.y

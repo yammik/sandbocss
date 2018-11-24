@@ -8,7 +8,7 @@ class Controls extends Component {
   render() {
     return (
       <div id="controls">
-        
+        <button onClick={this.props.addDiv}>add div</button>
       </div>
     )
   }

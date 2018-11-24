@@ -31,12 +31,56 @@
   }
 }
 
+* {
+  font-family: 'Cutive Mono', monospace;
+}
+
+#navbar {
+  height: 150px;
+  background-image: linear-gradient(to top right,rgb(195,214,237), rgb(214,233,217));
+  position: relative;
+}
+
+#navbar div {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  font-size: 2.6em;
+  font-weight: 700;
+  color: #555;
+}
+
+#container {
+  clear: both;
+  padding: 20px 0;
+}
+
+#controls {
+  float: left;
+  width: 20%;
+}
+
+#sandbox {
+  margin: 0px auto;
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #ccc;
+  width: 60%;
+  padding: 18.694% 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
+#output {
+  float: right;
+  width: 20%;
+}
 
 .resizable {
   border: 1px solid;
   transition: background-color 0.3s ease;
   position: relative;
-
+  font-size: 0.2em;
 }
 
 .resizable:hover {

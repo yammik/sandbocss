@@ -42,14 +42,19 @@ class Container extends Component {
 
   updateDiv = (key, className='resizable', width=0, height=0, x=0, y=0) => {
     this.setState({
-      divs: [...this.state.divs.filter(div => div.key !== key), {
-        key: key,
-        className: className,
-        width: width,
-        height: height,
-        x: x,
-        y: y,
-      }],
+      divs: this.state.divs.map(div => {
+        if (div.key !== key) {
+          return div;
+        }
+        return {
+          key: key,
+          className: className,
+          width: width,
+          height: height,
+          x: x,
+          y: y,
+        }
+      })
     })
   }
 

@@ -35,6 +35,9 @@
   font-family: 'Cutive Mono', monospace;
 }
 
+code {
+  font-size:
+}
 #navbar {
   height: 150px;
   background-image: linear-gradient(to top right,rgb(195,214,237), rgb(214,233,217));

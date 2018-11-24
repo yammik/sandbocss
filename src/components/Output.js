@@ -3,33 +3,24 @@ import React, { Component } from 'react';
 class Output extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      code: '',
-    }
-  }
-
-  componentDidUpdate(prevState, prevProps) {
-    // iterate through this.props.divs to generate code
-    // each div will have the following structure:
-    // div1 = { key: '', className: '', width: n, height: m, x: a, y: b } x being left, y being top
-    let output = '';
-    this.props.divs.map(div => {
-      output += `.${div.className} {\n  position: absolute;\n  width: ${div.width}px;\n  height: ${div.height}px;\n  top: ${div.y}px;\n  left: ${div.x}px;\n}\n\n`
-    })
-    console.log(output);
-    // this.setState({
-    //   code: output,
-    // })
   }
 
   render() {
     return (
       <div id="output">
-        <p>
-          {this.state.code}
-        </p>
-        <code>
-        </code>
+        <pre>
+        {this.props.divs.map(div => {
+          return <code key={div.key}>
+            {'.'+div.className+' {'}<br/>
+            {'  position: absolute;'}<br/>
+            {'  width: '+div.width+'px;'}<br/>
+            {'  height: '+div.height+'px;'}<br/>
+            {'  left: '+div.x+'px;'}<br/>
+            {'  top: '+div.y+'px;'}<br/>
+            {'}'}<br/><br/>
+          </code>
+        })}
+      </pre>
       </div>
     )
   }

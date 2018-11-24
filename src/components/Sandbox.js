@@ -12,15 +12,9 @@ class Sandbox extends Component {
     super(props);
     this.state = {
       currentElement: '',
-      width: 200,
-      height: 200,
-      x: 0,
-      y: 0,
     };
   }
 
-  // for each div in this.prop.divs, render a <Rnd /> with the appropriate size and position
-  // when saving attributes of the div, save numbers as numbers; makes it easier for math. Append 'px' when outputting code
   render() {
     const { divs, updateDiv } = this.props;
     return (
@@ -36,7 +30,8 @@ class Sandbox extends Component {
               updateDiv(div.key, 'resizable', div.width, div.height, d.x, d.y);
             }}
             onResize={(e, direction, ref, delta, position) => {
-              updateDiv(div.key, 'resizable', ref.style.width, ref.style.height, position.x, position.y);
+              // debugger
+              updateDiv(div.key, 'resizable', ref.offsetWidth, ref.offsetHeight, position.x, position.y);
             }}
             ><div>
               width: {div.width}, height: {div.height}

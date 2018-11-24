@@ -22,24 +22,29 @@ class Sandbox extends Component {
         {divs.map(div =>
           <Rnd
             key={div.key}
-            className="resizable"
+            className={div.className}
             style={style}
             size={{ width: div.width, height: div.height }}
             position={{ x: div.x, y: div.y }}
             onDragStop={(e, d) => {
-              updateDiv(div.key, 'resizable', div.width, div.height, d.x, d.y);
+              updateDiv(div.key, div.className, div.width, div.height, d.x, d.y);
             }}
             onResize={(e, direction, ref, delta, position) => {
               // debugger
-              updateDiv(div.key, 'resizable', ref.offsetWidth, ref.offsetHeight, position.x, position.y);
+              updateDiv(div.key, div.className, ref.offsetWidth, ref.offsetHeight, position.x, position.y);
             }}
-            ><div>
-              width: {div.width}, height: {div.height}
-            </div>
-            <br></br>
-            <div>
-              x: {Math.floor(div.x)}, y: {Math.floor(div.y)}
-            </div>
+            >
+              <div>
+                class: {div.className.split(' ').filter(word => word !== 'resizable').join(' ')}
+              </div>
+              <br></br>
+              <div>
+                width: {div.width}, height: {div.height}
+              </div>
+              <br></br>
+              <div>
+                x: {Math.floor(div.x)}, y: {Math.floor(div.y)}
+              </div>
           </Rnd>
         )}
       </div>

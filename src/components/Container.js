@@ -58,11 +58,11 @@ class Container extends Component {
     })
   }
 
-  addDiv = () => {
+  addDiv = (name) => {
     this.setState({
       divs: this.state.divs.concat({
           key: v4(),
-          className: 'resizable',
+          className: `resizable ${name}`,
           width: 100,
           height: 100,
           x: 0,

@@ -77,7 +77,7 @@
   width: 20%;
   overflow-y: scroll;
   background: #eee;
-  height: 665px;
+  height: 500px;
 }
 
 .resizable {
@@ -88,11 +88,11 @@
 }
 
 .resizable:hover {
-  background-color: #ddd;
+  background-color: #eee;
 }
 
 .resizable-handle {
-  position: absolute;
+  /* position: absolute; */
   width: 20px;
   height: 20px;
   bottom: 0;
@@ -103,4 +103,16 @@
   background-origin: content-box;
   box-sizing: border-box;
   cursor: se-resize;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.center {
+  margin: 0 auto;
 }

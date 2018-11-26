@@ -24,6 +24,7 @@ class Controls extends Component {
   }
 
   render() {
+    const { alignCenter, alignLeft, alignRight } = this.props;
     return (
       <div id="controls">
         <form onSubmit={this.handleSubmit}>
@@ -31,7 +32,18 @@ class Controls extends Component {
           <input onChange={this.handleChange}></input>
           <input type="submit"/>
         </form>
-        {/* <button onClick={this.props.addDiv}>add default div</button> */}
+        <br></br>
+        <button onClick={alignCenter}>
+          center me
+        </button>
+        <br></br>
+        <button onClick={alignLeft}>
+          to da left
+        </button>
+        <br></br>
+        <button onClick={alignRight}>
+          give me rights
+        </button>
       </div>
     )
   }

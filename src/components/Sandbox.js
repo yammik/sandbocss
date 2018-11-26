@@ -16,49 +16,51 @@ const styleEmph = {
 class Sandbox extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentElement: '',
-    };
   }
 
-  setCurrent = div => {
-    this.setState({
-      currentElement: div.key,
-    })
+  handleClick = e => {
+    e.stopPropagation();
+    this.props.setCurrent(e.target);
+  }
+  handleDragStop = e => {
+    e.stopPropagation();
+    this.props.updateDiv(e.target);
+  }
+
+  renderDiv = (div, z=0) => {
+    const { divs, updateDiv, setCurrent, currentElement } = this.props;
+    return <Rnd
+      key={div.key}
+      className={div.className}
+      id={div.key}
+      style={div.key === currentElement ? styleEmph : style}
+      size={{ width: div.width, height: div.height }}
+      position={{ x: div.x, y: div.y }}
+      onDragStop={(e, d) => {
+        e.stopPropagation();
+        updateDiv(div.key, div.className, div.width, div.height, d.x, d.y)
+      }}
+      onResize={(e, direction, ref, delta, position) => updateDiv(div.key, div.className, ref.offsetWidth, ref.offsetHeight, position.x, position.y)}
+      onClick={this.handleClick}
+      dragGrid={[20,20]}
+      bounds='parent'
+      z-index={z}
+    >
+      <div>
+        class: {div.className.split(' ').filter(word => word !== 'resizable').join(' ')}
+      </div>
+      {div.children.map(div =>
+        this.renderDiv(div, z+1)
+      )}
+    </Rnd>
   }
 
   render() {
-    const { divs, updateDiv } = this.props;
-    const { currentElement } = this.state;
+    const { divs } = this.props;
     return (
       <div id="sandbox">
         {divs.map(div =>
-          <Rnd
-            key={div.key}
-            className={div.className}
-            style={div.key === currentElement ? styleEmph : style}
-            size={{ width: div.width, height: div.height }}
-            position={{ x: div.x, y: div.y }}
-            onDragStop={(e, d) => {
-              updateDiv(div.key, div.className, div.width, div.height, d.x, d.y);
-            }}
-            onResize={(e, direction, ref, delta, position) => {
-              updateDiv(div.key, div.className, ref.offsetWidth, ref.offsetHeight, position.x, position.y);
-            }}
-            onClick={() => this.setCurrent(div)}
-            >
-              <div>
-                class: {div.className.split(' ').filter(word => word !== 'resizable').join(' ')}
-              </div>
-              <br></br>
-              <div>
-                w: {div.width} px, h: {div.height} px
-              </div>
-              <br></br>
-              <div>
-                x: {Math.floor(div.x)} px, y: {Math.floor(div.y)} px
-              </div>
-          </Rnd>
+          this.renderDiv(div)
         )}
       </div>
     )
@@ -66,5 +68,3 @@ class Sandbox extends Component {
 }
 
 export default Sandbox;
-
-// make a div this.props.divs.forEach with div.className, div.width, div.height, div.x, div.y

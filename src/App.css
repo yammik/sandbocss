@@ -35,9 +35,7 @@
   font-family: 'Cutive Mono', monospace;
 }
 
-code {
-  font-size:
-}
+
 #navbar {
   height: 150px;
   background-image: linear-gradient(to top right,rgb(195,214,237), rgb(214,233,217));
@@ -77,13 +75,16 @@ code {
 #output {
   float: right;
   width: 20%;
+  overflow-y: scroll;
+  background: #eee;
+  height: 665px;
 }
 
 .resizable {
   border: 1px solid;
   transition: background-color 0.3s ease;
   position: relative;
-  font-size: 0.2em;
+  font-size: 0.8em;
 }
 
 .resizable:hover {

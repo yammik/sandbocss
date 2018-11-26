@@ -11,7 +11,7 @@ class Output extends Component {
         <pre>
         {this.props.divs.map(div => {
           return <code key={div.key}>
-            {'.'+div.className+' {'}<br/>
+            {'.'+div.className.split(' ').filter(word => word !== 'resizable').join(' ')+' {'}<br/>
             {'  position: absolute;'}<br/>
             {'  width: '+div.width+'px;'}<br/>
             {'  height: '+div.height+'px;'}<br/>

@@ -24,13 +24,29 @@ class Controls extends Component {
   }
 
   render() {
-    const { alignCenter, alignLeft, alignRight } = this.props;
+    const {
+      alignCenter,
+      alignLeft,
+      alignRight,
+      moveRight,
+      moveLeft,
+      moveUp,
+      moveDown,
+      biggerX,
+      smallerX,
+      biggerY,
+      smallerY
+    } = this.props;
+
     return (
       <div id="controls">
         <form onSubmit={this.handleSubmit}>
           class name:
-          <input onChange={this.handleChange}></input>
-          <input type="submit"/>
+          <div>
+            <input onChange={this.handleChange}></input>
+            <input type="submit"/>
+
+          </div>
         </form>
         <br></br>
         <button onClick={alignCenter}>
@@ -44,6 +60,19 @@ class Controls extends Component {
         <button onClick={alignRight}>
           give me rights
         </button>
+        <div id="directionPad">
+          <button onClick={moveUp}>🔼</button><br></br>
+          <button onClick={moveLeft}>◀️</button>
+          <button onClick={moveDown}>🔽</button>
+          <button onClick={moveRight}>▶️</button>
+        </div>
+
+        <div id="sizeCtrl">
+          <button onClick={biggerX}>🐘X</button>
+          <button onClick={smallerX}>🐁X</button>
+          <button onClick={biggerY}>🐘Y</button>
+          <button onClick={smallerY}>🐁Y</button>
+        </div>
       </div>
     )
   }

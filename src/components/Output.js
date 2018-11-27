@@ -6,6 +6,7 @@ class Output extends Component {
   }
 
   render() {
+    const { sandboxWidth, sandboxHeight } = this.props;
     return (
       <div id="output">
         <pre>
@@ -13,8 +14,8 @@ class Output extends Component {
           return <code key={div.key}>
             {'.'+div.className.split(' ').filter(word => word !== 'resizable').join(' ')+' {'}<br/>
             {'  position: absolute;'}<br/>
-            {'  width: '+div.width+'px;'}<br/>
-            {'  height: '+div.height+'px;'}<br/>
+            {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
+            {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
             {'  left: '+div.x+'px;'}<br/>
             {'  top: '+div.y+'px;'}<br/>
             {'}'}<br/><br/>
@@ -27,21 +28,3 @@ class Output extends Component {
 }
 
 export default Output;
-
-// stringify the following:
-// .test {
-//     position: absolute;
-//     user-select: auto;
-//     touch-action: none;
-//     width: 200px; <- this.props.width
-//     height: 200px; <- this.props.height
-//     display: inline-block;
-//     top: 0px;
-//     left: 0px;
-//     cursor: move;
-//     border: 1px solid rgb(221, 221, 221);
-//     transform: translate(10px, 28.75px);
-//     max-width: 9.0072e+15px;
-//     max-height: 9.0072e+15px;
-//     box-sizing: border-box;
-// }

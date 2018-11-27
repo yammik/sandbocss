@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <div id="navbar">
       <div>
-        sandboCSS
+        :absolute: sandboCSS
       </div>
     </div>
   )

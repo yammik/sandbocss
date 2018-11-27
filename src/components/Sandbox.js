@@ -18,6 +18,12 @@ class Sandbox extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    const w = document.getElementById('sandbox').offsetWidth;
+    const h = document.getElementById('sandbox').offsetHeight;
+    this.props.setSandboxDimensions(w, h);
+  }
+
   handleClick = e => {
     e.stopPropagation();
     this.props.setCurrent(e.target.id);

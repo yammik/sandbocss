@@ -17,44 +17,40 @@ class Container extends Component {
     this.state = {
       divs: [],
       currentElement: null,
-      xi: 0,
-      yi: 0,
-      xf: 0,
-      yf: 0,
+      sandboxWidth: 0,
+      sandboxHeight: 0,
     };
 
     this.addDiv = this.addDiv.bind(this)
   }
 
-  updateInitialCoords = (x, y) => {
+  setSandboxDimensions = (width, height) => {
     this.setState({
-      xi: x,
-      yi: y,
-    })
-  }
-
-  updateFinalCoords = (x, y) => {
-    this.setState({
-      xf: x,
-      yf: y,
+      sandboxWidth: width,
+      sandboxHeight: height,
     })
   }
 
   setCurrent = divKey => {
-    // debugger
     this.setState({
       currentElement: divKey,
     })
   }
 
-  // TODO : child is nested. Need to find a way to update child
+  findCurrent = () => {
+    return this.findDiv(this.state.currentElement);
+  }
 
-  updateDiv = (divKey, width, height, x, y) => {
+  findDiv = key => {
     let matches = [];
     this.state.divs.forEach(div => {
-      matches = matches.concat(div.children.filter(dv => dv.key === divKey));
+      matches = matches.concat(div.children.filter(dv => dv.key === key));
     })
-    const selectedDiv = this.state.divs.find(dv => dv.key === divKey) || matches[0];
+    return this.state.divs.find(dv => dv.key === key) || matches[0];
+  }
+
+  updateDiv = (divKey, width, height, x, y) => {
+    const selectedDiv = this.findDiv(divKey);
     const newDiv = {
       key: selectedDiv.key,
       className: selectedDiv.className,
@@ -118,18 +114,62 @@ class Container extends Component {
     }
   }
 
+
+  // align buttons
   alignCenter = () => {
     const div = document.getElementById(this.state.currentElement);
-    debugger
-    this.updateDiv(div.key, div.className, div.width, div.height)
   }
 
   alignLeft = () => {
-
+    const div = document.getElementById(this.state.currentElement);
+    div.style.left = 0;
   }
 
   alignRight = () => {
+    const div = document.getElementById(this.state.currentElement);
+    div.style.right = 0;
+  }
 
+
+  // directional movements
+  moveRight = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width, div.height, div.x+50, div.y);
+  }
+
+  moveLeft = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width, div.height, div.x-50, div.y);
+  }
+
+  moveUp = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width, div.height, div.x, div.y-50);
+  }
+
+  moveDown = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width, div.height, div.x, div.y+50);
+  }
+
+
+  // size change controls
+  biggerX = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width+20, div.height, div.x, div.y);
+  }
+  biggerY = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width, div.height+20, div.x, div.y);
+  }
+
+  smallerX = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width-20, div.height, div.x, div.y);
+  }
+  smallerY = () => {
+    const div = this.findCurrent();
+    this.updateDiv(div.key, div.width, div.height-20, div.x, div.y);
   }
 
 
@@ -142,13 +182,25 @@ class Container extends Component {
           addDiv={this.addDiv}
           alignCenter={this.alignCenter}
           alignLeft={this.alignLeft}
-          alignRight={this.alignRight} />
+          alignRight={this.alignRight}
+          moveRight={this.moveRight}
+          moveLeft={this.moveLeft}
+          moveUp={this.moveUp}
+          moveDown={this.moveDown}
+          biggerX={this.biggerX}
+          biggerY={this.biggerY}
+          smallerX={this.smallerX}
+          smallerY={this.smallerY} />
         <Sandbox
           updateDiv={this.updateDiv}
           currentElement={currentElement}
           setCurrent={this.setCurrent}
+          setSandboxDimensions={this.setSandboxDimensions}
           divs={divs} />
-        <Output divs={divs} />
+        <Output
+          divs={divs}
+          sandboxWidth={this.state.sandboxWidth}
+          sandboxHeight={this.state.sandboxHeight} />
       </div>
     )
   }

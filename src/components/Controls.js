@@ -34,7 +34,7 @@ class Controls extends Component {
         </form>
         <br></br>
         <button onClick={alignCenter}>
-          center me
+          find my center
         </button>
         <br></br>
         <button onClick={alignLeft}>

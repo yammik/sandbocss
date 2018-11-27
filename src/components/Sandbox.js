@@ -20,11 +20,7 @@ class Sandbox extends Component {
 
   handleClick = e => {
     e.stopPropagation();
-    this.props.setCurrent(e.target);
-  }
-  handleDragStop = e => {
-    e.stopPropagation();
-    this.props.updateDiv(e.target);
+    this.props.setCurrent(e.target.id);
   }
 
   renderDiv = (div, z=0) => {
@@ -38,9 +34,12 @@ class Sandbox extends Component {
       position={{ x: div.x, y: div.y }}
       onDragStop={(e, d) => {
         e.stopPropagation();
-        updateDiv(div.key, div.className, div.width, div.height, d.x, d.y)
+        updateDiv(div.key, div.width, div.height, d.x, d.y)
       }}
-      onResize={(e, direction, ref, delta, position) => updateDiv(div.key, div.className, ref.offsetWidth, ref.offsetHeight, position.x, position.y)}
+      onResize={(e, d, ref, delta, pos) => {
+        e.stopPropagation();
+        updateDiv(div.key, ref.offsetWidth, ref.offsetHeight, pos.x, pos.y);
+      }}
       onClick={this.handleClick}
       dragGrid={[20,20]}
       bounds='parent'

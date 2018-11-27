@@ -40,30 +40,48 @@ class Container extends Component {
     })
   }
 
-  setCurrent = div => {
+  setCurrent = divKey => {
+    // debugger
     this.setState({
-      currentElement: div.id,
+      currentElement: divKey,
     })
   }
 
-  updateDiv = (key, className='resizable', width=0, height=0, x=0, y=0) => {
+  // TODO : child is nested. Need to find a way to update child
 
-    this.setState({
-      divs: this.state.divs.map(div => {
-        if (div.key !== key) {
-          return div;
-        }
-        return {
-          key: key,
-          className: className,
-          width: width,
-          height: height,
-          x: x,
-          y: y,
-          children: div.children,
-        }
-      })
+  updateDiv = (divKey, width, height, x, y) => {
+    let matches = [];
+    this.state.divs.forEach(div => {
+      matches = matches.concat(div.children.filter(dv => dv.key === divKey));
     })
+    const selectedDiv = this.state.divs.find(dv => dv.key === divKey) || matches[0];
+    const newDiv = {
+      key: selectedDiv.key,
+      className: selectedDiv.className,
+      width: width,
+      height: height,
+      x: x,
+      y: y,
+      children: selectedDiv.children,
+    }
+    if (this.state.currentElement === selectedDiv.key) {
+      this.setState({
+        divs: this.state.divs.map(div => {
+          if (div.key !== selectedDiv.key) {
+            return Object.assign({}, div, {
+              children: div.children.map(dv => {
+                if (dv.key !== selectedDiv.key) {
+                  return dv;
+                }
+                return newDiv;
+              })
+            })
+          }
+          return newDiv;
+        })
+      })
+
+    }
   }
 
   addDiv = (name) => {

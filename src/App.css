@@ -106,13 +106,16 @@
 }
 
 .left {
-  float: left;
+  position: absolute;
+  left: 0;
 }
 
 .right {
-  float: right;
+  position: absolute;
+  right: 0;
 }
 
 .center {
+  position: relative;
   margin: 0 auto;
 }

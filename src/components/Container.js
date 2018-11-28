@@ -43,6 +43,13 @@ class Container extends Component {
     }
   }
 
+  // remove?
+  unsetCurrent = () => {
+    this.setState({
+      currentElement: null,
+    })
+  }
+
   findCurrent = () => {
     return this.findDiv(this.state.currentElement);
   }
@@ -66,23 +73,11 @@ class Container extends Component {
       y: y,
       children: selectedDiv.children,
     }
+
     if (this.state.currentElement === selectedDiv.key) {
       this.setState({
-        divs: this.state.divs.map(div => {
-          if (div.key !== selectedDiv.key) {
-            return Object.assign({}, div, {
-              children: div.children.map(dv => {
-                if (dv.key !== selectedDiv.key) {
-                  return dv;
-                }
-                return newDiv;
-              })
-            })
-          }
-          return newDiv;
-        })
+        divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv)
       })
-
     }
   }
 
@@ -121,47 +116,34 @@ class Container extends Component {
   }
 
 
-  // align buttons
-  alignCenter = () => {
+  // align div
+  align = (direction) => {
     const domDiv = document.getElementById(this.state.currentElement);
-    const { sandboxWidth } = this.state;
     const div = this.findCurrent();
-    const newX = domDiv.parentElement.offsetWidth/2 - div.width/2;
-    this.updateDiv(div.key, `${div.className} center`, div.width, div.height, newX, div.y);
+    // const newX = domDiv.parentElement.offsetWidth/2 - div.width/2;
+    const newClass = div.className.split(' ').filter(cls => !['center', 'left', 'right'].includes(cls)).join(' ') + ' ' + direction;
+    // const newClass = div.className.includes(direction) ? div.className : `${div.className} ${direction}`;
+    this.updateDiv(div.key, newClass, div.width, div.height, div.x, div.y);
   }
-
-  alignLeft = () => {
-    const div = document.getElementById(this.state.currentElement);
-    div.style.left = 0;
-  }
-
-  alignRight = () => {
-    const div = document.getElementById(this.state.currentElement);
-    div.style.right = 0;
-  }
-
 
   // directional movements
-  moveRight = () => {
+  move = (direction) => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.className, div.width, div.height, div.x+50, div.y);
+    switch (direction) {
+      case 'right':
+        this.updateDiv(div.key, div.className, div.width, div.height, div.x+50, div.y);
+        break;
+      case 'left':
+        this.updateDiv(div.key, div.className, div.width, div.height, div.x-50, div.y);
+        break;
+      case 'up':
+        this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y-50);
+        break;
+      case 'down':
+        this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y+50);
+        break;
+    }
   }
-
-  moveLeft = () => {
-    const div = this.findCurrent();
-    this.updateDiv(div.key, div.className, div.width, div.height, div.x-50, div.y);
-  }
-
-  moveUp = () => {
-    const div = this.findCurrent();
-    this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y-50);
-  }
-
-  moveDown = () => {
-    const div = this.findCurrent();
-    this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y+50);
-  }
-
 
   // size change controls
   biggerX = () => {
@@ -172,7 +154,6 @@ class Container extends Component {
     const div = this.findCurrent();
     this.updateDiv(div.key, div.className, div.width, div.height+20, div.x, div.y);
   }
-
   smallerX = () => {
     const div = this.findCurrent();
     this.updateDiv(div.key, div.className, div.width-20, div.height, div.x, div.y);
@@ -182,7 +163,6 @@ class Container extends Component {
     this.updateDiv(div.key, div.className, div.width, div.height-20, div.x, div.y);
   }
 
-
   render() {
     const { divs, currentElement } = this.state;
     return (
@@ -190,13 +170,8 @@ class Container extends Component {
         <Controls
           updateDiv={this.updateDiv}
           addDiv={this.addDiv}
-          alignCenter={this.alignCenter}
-          alignLeft={this.alignLeft}
-          alignRight={this.alignRight}
-          moveRight={this.moveRight}
-          moveLeft={this.moveLeft}
-          moveUp={this.moveUp}
-          moveDown={this.moveDown}
+          align={this.align}
+          move={this.move}
           biggerX={this.biggerX}
           biggerY={this.biggerY}
           smallerX={this.smallerX}
@@ -205,6 +180,7 @@ class Container extends Component {
           updateDiv={this.updateDiv}
           currentElement={currentElement}
           setCurrent={this.setCurrent}
+          unsetCurrent={this.unsetCurrent}
           setSandboxDimensions={this.setSandboxDimensions}
           divs={divs} />
         <Output

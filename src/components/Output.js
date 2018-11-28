@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 
 class Output extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
+  }
+
+  formatClassName = (className) => {
+    return className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ');
   }
 
   renderCode = div => {
     const { sandboxWidth, sandboxHeight } = this.props;
     if (div.className.includes('center')) {
       return <code key={div.key}>
-        {'.'+div.className.split(' ').filter(word => word !== 'resizable' && word !== 'center').join(' ')+' {'}<br/>
+        {'.'+this.formatClassName(div.className)+' {'}<br/>
         {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
         {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
+        {'  position: absolute;'}<br/>
         {'  left: 0;'}<br/>
         {'  right: 0;'}<br/>
         {'  margin-left: auto;'}<br/>
@@ -23,7 +28,7 @@ class Output extends Component {
     }
 
     return <code key={div.key}>
-      {'.'+div.className.split(' ').filter(word => word !== 'resizable').join(' ')+' {'}<br/>
+      {'.'+this.formatClassName(div.className)+' {'}<br/>
       {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
       {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
       {'  left: '+div.x+'px;'}<br/>

@@ -25,17 +25,12 @@ class Controls extends Component {
 
   render() {
     const {
-      alignCenter,
-      alignLeft,
-      alignRight,
-      moveRight,
-      moveLeft,
-      moveUp,
-      moveDown,
+      align,
       biggerX,
       smallerX,
       biggerY,
-      smallerY
+      smallerY,
+      move
     } = this.props;
 
     return (
@@ -49,22 +44,22 @@ class Controls extends Component {
           </div>
         </form>
         <br></br>
-        <button onClick={alignCenter}>
+        <button onClick={() => align('center')}>
           find my center
         </button>
         <br></br>
-        <button onClick={alignLeft}>
+        <button onClick={() => align('left')}>
           to da left
         </button>
         <br></br>
-        <button onClick={alignRight}>
+        <button onClick={() => align('right')}>
           give me rights
         </button>
         <div id="directionPad">
-          <button onClick={moveUp}>🔼</button><br></br>
-          <button onClick={moveLeft}>◀️</button>
-          <button onClick={moveDown}>🔽</button>
-          <button onClick={moveRight}>▶️</button>
+          <button onClick={() => move('up')}>🔼</button><br></br>
+          <button onClick={() => move('left')}>◀️</button>
+          <button onClick={() => move('down')}>🔽</button>
+          <button onClick={() => move('right')}>▶️</button>
         </div>
 
         <div id="sizeCtrl">
@@ -74,7 +69,9 @@ class Controls extends Component {
           <button onClick={smallerY}>🐁Y</button>
         </div>
 
-        <div></div>
+        <div id="palette">
+
+        </div>
       </div>
     )
   }

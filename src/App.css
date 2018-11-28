@@ -77,14 +77,16 @@
   width: 20%;
   overflow-y: scroll;
   background: #eee;
-  height: 500px;
+  height: 680px;
 }
 
 .resizable {
-  border: 1px solid;
   transition: background-color 0.3s ease;
   position: relative;
   font-size: 0.8em;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #ddd;
 }
 
 .resizable:hover {
@@ -92,7 +94,6 @@
 }
 
 .resizable-handle {
-  /* position: absolute; */
   width: 20px;
   height: 20px;
   bottom: 0;
@@ -116,6 +117,25 @@
 }
 
 .center {
-  position: relative;
-  margin: 0 auto;
+  /* position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+  height: 100px;
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: se-resize; */
+}
+
+#directionPad {
+  margin: 50px 30px;
+}
+
+#sizeCtrl {
+  margin: 50px 30px;
 }

@@ -30,7 +30,7 @@ class Sandbox extends Component {
   }
 
   renderDiv = (div, z=0) => {
-    const { divs, updateDiv, setCurrent, currentElement } = this.props;
+    const { updateDiv, setCurrent, currentElement } = this.props;
     return <Rnd
       key={div.key}
       className={div.className}
@@ -40,11 +40,11 @@ class Sandbox extends Component {
       position={{ x: div.x, y: div.y }}
       onDragStop={(e, d) => {
         e.stopPropagation();
-        updateDiv(div.key, div.width, div.height, d.x, d.y)
+        updateDiv(div.key, div.className, div.width, div.height, d.x, d.y)
       }}
       onResize={(e, d, ref, delta, pos) => {
         e.stopPropagation();
-        updateDiv(div.key, ref.offsetWidth, ref.offsetHeight, pos.x, pos.y);
+        updateDiv(div.key, div.className, ref.offsetWidth, ref.offsetHeight, pos.x, pos.y);
       }}
       onClick={this.handleClick}
       dragGrid={[20,20]}

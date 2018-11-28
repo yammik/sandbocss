@@ -32,9 +32,15 @@ class Container extends Component {
   }
 
   setCurrent = divKey => {
-    this.setState({
-      currentElement: divKey,
-    })
+    if (this.state.currentElement === divKey) {
+      this.setState({
+        currentElement: null,
+      })
+    } else {
+      this.setState({
+        currentElement: divKey,
+      })
+    }
   }
 
   findCurrent = () => {
@@ -49,11 +55,11 @@ class Container extends Component {
     return this.state.divs.find(dv => dv.key === key) || matches[0];
   }
 
-  updateDiv = (divKey, width, height, x, y) => {
+  updateDiv = (divKey, className, width, height, x, y) => {
     const selectedDiv = this.findDiv(divKey);
     const newDiv = {
       key: selectedDiv.key,
-      className: selectedDiv.className,
+      className: className,
       width: width,
       height: height,
       x: x,
@@ -117,7 +123,11 @@ class Container extends Component {
 
   // align buttons
   alignCenter = () => {
-    const div = document.getElementById(this.state.currentElement);
+    const domDiv = document.getElementById(this.state.currentElement);
+    const { sandboxWidth } = this.state;
+    const div = this.findCurrent();
+    const newX = domDiv.parentElement.offsetWidth/2 - div.width/2;
+    this.updateDiv(div.key, `${div.className} center`, div.width, div.height, newX, div.y);
   }
 
   alignLeft = () => {
@@ -134,42 +144,42 @@ class Container extends Component {
   // directional movements
   moveRight = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width, div.height, div.x+50, div.y);
+    this.updateDiv(div.key, div.className, div.width, div.height, div.x+50, div.y);
   }
 
   moveLeft = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width, div.height, div.x-50, div.y);
+    this.updateDiv(div.key, div.className, div.width, div.height, div.x-50, div.y);
   }
 
   moveUp = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width, div.height, div.x, div.y-50);
+    this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y-50);
   }
 
   moveDown = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width, div.height, div.x, div.y+50);
+    this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y+50);
   }
 
 
   // size change controls
   biggerX = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width+20, div.height, div.x, div.y);
+    this.updateDiv(div.key, div.className, div.width+20, div.height, div.x, div.y);
   }
   biggerY = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width, div.height+20, div.x, div.y);
+    this.updateDiv(div.key, div.className, div.width, div.height+20, div.x, div.y);
   }
 
   smallerX = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width-20, div.height, div.x, div.y);
+    this.updateDiv(div.key, div.className, div.width-20, div.height, div.x, div.y);
   }
   smallerY = () => {
     const div = this.findCurrent();
-    this.updateDiv(div.key, div.width, div.height-20, div.x, div.y);
+    this.updateDiv(div.key, div.className, div.width, div.height-20, div.x, div.y);
   }
 
 

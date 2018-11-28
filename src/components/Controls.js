@@ -69,10 +69,12 @@ class Controls extends Component {
 
         <div id="sizeCtrl">
           <button onClick={biggerX}>🐘X</button>
+          <button onClick={biggerY}>🐘Y</button><br></br>
           <button onClick={smallerX}>🐁X</button>
-          <button onClick={biggerY}>🐘Y</button>
           <button onClick={smallerY}>🐁Y</button>
         </div>
+
+        <div></div>
       </div>
     )
   }

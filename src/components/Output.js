@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class Output extends Component {
-  constructor() {
-    super()
-  }
-
   formatClassName = (className) => {
     return className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ');
   }

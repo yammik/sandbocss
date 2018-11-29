@@ -118,11 +118,8 @@ class Container extends Component {
 
   // align div
   align = (direction) => {
-    const domDiv = document.getElementById(this.state.currentElement);
     const div = this.findCurrent();
-    // const newX = domDiv.parentElement.offsetWidth/2 - div.width/2;
     const newClass = div.className.split(' ').filter(cls => !['center', 'left', 'right'].includes(cls)).join(' ') + ' ' + direction;
-    // const newClass = div.className.includes(direction) ? div.className : `${div.className} ${direction}`;
     this.updateDiv(div.key, newClass, div.width, div.height, div.x, div.y);
   }
 
@@ -141,6 +138,8 @@ class Container extends Component {
         break;
       case 'down':
         this.updateDiv(div.key, div.className, div.width, div.height, div.x, div.y+50);
+        break;
+      default:
         break;
     }
   }

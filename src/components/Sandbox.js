@@ -14,10 +14,6 @@ const styleEmph = {
 }
 
 class Sandbox extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const w = document.getElementById('sandbox').offsetWidth;
     const h = document.getElementById('sandbox').offsetHeight;
@@ -29,7 +25,7 @@ class Sandbox extends Component {
     this.props.setCurrent(e.target.id);
   }
   renderDiv = (div, z=0) => {
-    const { updateDiv, setCurrent, currentElement } = this.props;
+    const { updateDiv, currentElement } = this.props;
     return <Rnd
       key={div.key}
       className={div.className}
@@ -40,12 +36,10 @@ class Sandbox extends Component {
       onDragStop={(e, d) => {
         e.stopPropagation();
         updateDiv(div.key, div.className, div.width, div.height, d.x, d.y);
-        // setCurrent(div.key);
       }}
       onResize={(e, d, ref, delta, pos) => {
         e.stopPropagation();
         updateDiv(div.key, div.className, ref.offsetWidth, ref.offsetHeight, pos.x, pos.y);
-        // setCurrent(div.key);
       }}
       onClick={this.handleClick}
       dragGrid={[30,30]}

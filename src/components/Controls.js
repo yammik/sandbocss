@@ -56,17 +56,35 @@ class Controls extends Component {
           give me rights
         </button>
         <div id="directionPad">
-          <button onClick={() => move('up')}>🔼</button><br></br>
-          <button onClick={() => move('left')}>◀️</button>
-          <button onClick={() => move('down')}>🔽</button>
-          <button onClick={() => move('right')}>▶️</button>
+          <button onClick={() => move('up')}>
+            <span role="img" aria-label="up">🔼</span>
+          </button>
+          <br></br>
+          <button onClick={() => move('left')}>
+            <span role="img" aria-label="left">◀️</span>
+          </button>
+          <button onClick={() => move('down')}>
+            <span role="img" aria-label="down">🔽</span>
+          </button>
+          <button onClick={() => move('right')}>
+            <span role="img" aria-label="right">▶️</span>
+          </button>
         </div>
 
         <div id="sizeCtrl">
-          <button onClick={biggerX}>🐘X</button>
-          <button onClick={biggerY}>🐘Y</button><br></br>
-          <button onClick={smallerX}>🐁X</button>
-          <button onClick={smallerY}>🐁Y</button>
+          <button onClick={biggerX}>
+            <span role="img" aria-label="xlarg">🐘</span> X
+          </button>
+          <button onClick={biggerY}>
+            <span role="img" aria-label="ylarg">🐘</span>Y
+          </button>
+          <br></br>
+          <button onClick={smallerX}>
+            <span role="img" aria-label="xsmol">🐁</span>X
+          </button>
+          <button onClick={smallerY}>
+            <span role="img" aria-label="ysmol">🐁</span>Y
+          </button>
         </div>
 
         <div id="palette">

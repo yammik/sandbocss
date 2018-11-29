@@ -113,16 +113,16 @@
 
 .left {
   position: absolute;
-  left: 0;
-  right: auto;
+  left: 0 !important;
+  right: auto !important;
   background: green;
 }
 
 .right {
   position: absolute;
-  left: auto;
-  right: 0;
-  background: red;
+  left: auto !important;
+  right: 0 !important;
+  background: skyblue;
 }
 
 .center {

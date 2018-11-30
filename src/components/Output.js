@@ -5,35 +5,42 @@ class Output extends Component {
     return className.replace(/ center| left| right/,'');
   }
 
+  lefted = () => {
+    return (
+      '  position: absolute;\n  left: 0;\n  right: auto;'
+    )
+  }
+
+  righted = () => {
+    return (
+      '  position: absolute;\n  left: auto;\n  right: 0;'
+    )
+  }
+
+  centered = () => {
+    return (
+      '  position: absolute;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;'
+    )
+  }
+
+  defaultProp = div => {
+    return (
+      `  left: ${div.x}px;\n  top: ${div.y}px;\n  }`
+    )
+  }
+
   renderCode = div => {
     const { sandboxWidth, sandboxHeight } = this.props;
-    if (div.className.includes('center')) {
       return <code key={div.key}>
         {'.'+this.formatClassName(div.className)+' {'}<br/>
         {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
         {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
-        {'  position: absolute;'}<br/>
-        {'  left: 0;'}<br/>
-        {'  right: 0;'}<br/>
-        {'  margin-left: auto;'}<br/>
-        {'  margin-right: auto;'}<br/>
+        {div.className.includes('center') ? this.centered() : div.className.includes('left') ? this.lefted() : div.className.includes('right') ? this.righted() : this.defaultProp(div) }<br/>
         {'}'}<br/><br/>
 
         {div.children.map(dv => this.renderCode(dv))}
       </code>
     }
-
-    return <code key={div.key}>
-      {'.'+this.formatClassName(div.className)+' {'}<br/>
-      {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
-      {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
-      {'  left: '+div.x+'px;'}<br/>
-      {'  top: '+div.y+'px;'}<br/>
-      {'}'}<br/><br/>
-
-      {div.children.map(dv => this.renderCode(dv))}
-    </code>
-  }
 
   render() {
     return (
@@ -47,5 +54,6 @@ class Output extends Component {
     )
   }
 }
+
 
 export default Output;

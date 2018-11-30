@@ -32,15 +32,15 @@ class Container extends Component {
   }
 
   setCurrent = divKey => {
-    if (this.state.currentElement === divKey) {
-      this.setState({
-        currentElement: null,
-      })
-    } else {
-      this.setState({
-        currentElement: divKey,
-      })
-    }
+    this.setState({
+      currentElement: divKey,
+    })
+  }
+
+  unsetCurrent = () => {
+    this.setState({
+      currentElement: null
+    })
   }
 
   findCurrent = () => {
@@ -188,6 +188,7 @@ class Container extends Component {
           updateDiv={this.updateDiv}
           currentElement={currentElement}
           setCurrent={this.setCurrent}
+          unsetCurrent={this.unsetCurrent}
           setSandboxDimensions={this.setSandboxDimensions}
           divs={divs} />
         <Output

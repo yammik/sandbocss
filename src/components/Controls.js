@@ -26,34 +26,29 @@ class Controls extends Component {
   render() {
     const {
       align,
-      biggerX,
-      smallerX,
-      biggerY,
-      smallerY,
-      move
+      move,
+      resize,
     } = this.props;
 
     return (
       <div id="controls">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="classNameForm">
           class name:
           <div>
-            <input onChange={this.handleChange}></input>
-            <input type="submit"/>
+            <input onChange={this.handleChange} className="classNameInput"></input>
+            <br></br>
+            <input className="classNameSubmit" type="submit" value="make a div"></input>
 
           </div>
         </form>
-        <br></br>
-        <button onClick={() => align('center')}>
-          find my center
-        </button>
-        <br></br>
         <button onClick={() => align('left')}>
-          to da left
+          L
         </button>
-        <br></br>
+        <button onClick={() => align('center')}>
+          C
+        </button>
         <button onClick={() => align('right')}>
-          give me rights
+          R
         </button>
         <div id="directionPad">
           <button onClick={() => move('up')}>
@@ -72,17 +67,17 @@ class Controls extends Component {
         </div>
 
         <div id="sizeCtrl">
-          <button onClick={biggerX}>
-            <span role="img" aria-label="xlarg">🐘</span> X
+          <button onClick={() => resize('xUp')}>
+            <span role="img" aria-label="xlarg">🐘</span>X
           </button>
-          <button onClick={biggerY}>
+          <button onClick={() => resize('yUp')}>
             <span role="img" aria-label="ylarg">🐘</span>Y
           </button>
           <br></br>
-          <button onClick={smallerX}>
+          <button onClick={() => resize('xDown')}>
             <span role="img" aria-label="xsmol">🐁</span>X
           </button>
-          <button onClick={smallerY}>
+          <button onClick={() => resize('yDown')}>
             <span role="img" aria-label="ysmol">🐁</span>Y
           </button>
         </div>

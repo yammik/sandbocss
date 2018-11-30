@@ -10,7 +10,7 @@ const style = {
 const styleEmph = {
   alignItems: "center",
   justifyContent: "center",
-  border: "solid 2px red",
+  border: "solid 2px rgba(48,69,109,0.7)",
 }
 
 class Sandbox extends Component {
@@ -32,7 +32,14 @@ class Sandbox extends Component {
       id={div.key}
       style={div.key === currentElement ? styleEmph : style}
       size={{ width: div.width, height: div.height }}
-      position={{ x: div.x, y: div.y }}
+      position={div.aligned ? null : { x: div.x, y: div.y }}
+      onDrag={(e, d) => {
+        e.stopPropagation();
+        // console.log(e.nativeEvent.type);
+        // debugger;
+        const newClassName = div.className.replace(/ center| left| right/,'');
+        updateDiv(div.key, newClassName, div.width, div.height, d.x, d.y);
+      }}
       onDragStop={(e, d) => {
         e.stopPropagation();
         updateDiv(div.key, div.className, div.width, div.height, d.x, d.y);

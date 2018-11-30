@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Output extends Component {
   formatClassName = (className) => {
-    return className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ');
+    return className.replace(/ center| left| right/,'');
   }
 
   renderCode = div => {

@@ -1,54 +1,27 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 * {
-  font-family: 'Cutive Mono', monospace;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1em;
+}
+
+body {
+  background-image: linear-gradient(to top right, rgba(168,148,122,0.7), rgba(48,69,109,0.7));
 }
 
 #navbar {
   height: 150px;
-  background-image: linear-gradient(to top right,rgb(195,214,237), rgb(214,233,217));
   position: relative;
 }
 
-#navbar div {
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
+#title {
+  /* font-family: 'Cutive Mono', monospace; */
+  text-align: center;
+  align-content: center;
   font-size: 2.6em;
   font-weight: 700;
-  color: #555;
+  color: #fff;
+  margin: auto;
+  padding-top: 60px;
+  opacity: 1;
 }
 
 #container {
@@ -58,9 +31,13 @@
 
 #controls {
   float: left;
-  width: 20%;
+  width: 15%;
+  margin: 0 15px;
+  font-size: 1em;
+  color: white;
+  text-align: center;
+  padding: 30px 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.8em;
 }
 
 #sandbox {
@@ -72,19 +49,47 @@
   padding: 18.694% 0;
   position: relative;
   box-sizing: border-box;
+  background: white;
 }
 
 #output {
   float: right;
   width: 20%;
   overflow-y: scroll;
-  background: #eee;
-  height: 680px;
+  height: 600px;
+  font-size: 0.5em;
+}
+
+.classNameForm {
+  padding: 30px 0;
+}
+
+.classNameInput {
+  border: 0px solid #fff;
+  border-bottom-width: 1px;
+  background-color: transparent;
+  text-align: center;
+  caret-color: white;
+  color: white;
+}
+
+.classNameSubmit {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 0.8em;
+  border: 1px solid #fff;
+  padding: 4px;
+  margin-top: 10px;
+}
+
+input {
+  padding: 10px 0;
 }
 
 .resizable {
   transition: background-color 0.3s ease;
-  position: relative;
+  position: absolute;
   font-size: 1em;
   background-position: bottom right;
   padding: 0 3px 3px 0;
@@ -115,6 +120,7 @@
   position: absolute;
   left: 0 !important;
   right: auto !important;
+  transform: none !important;
   background: green;
 }
 
@@ -122,6 +128,7 @@
   position: absolute;
   left: auto !important;
   right: 0 !important;
+  transform: none !important;
   background: skyblue;
 }
 
@@ -131,13 +138,35 @@
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  transform: none !important;
   background: blue;
 }
 
 #directionPad {
   margin: 50px 30px;
+  text-align: center;
 }
 
 #sizeCtrl {
   margin: 50px 30px;
+  text-align: center;
+}
+
+button {
+  margin: 4px;
+  border: 1px solid white;
+  color: white;
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  outline: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #fff;
+  opacity: 0.6;
+}
+
+input:focus {
+  outline: none;
 }

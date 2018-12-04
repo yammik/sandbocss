@@ -5,11 +5,6 @@ import DropMenu from './DropMenu';
 // Container takes the information and adds/modifies the style for the currently selected Div
 
 const properties = {
-  // if x.values is an array, give drop down menu
-  // if x.values is a string, .split(' ')
-    // for each, if ['width', 'int', 'height', 'hOffset', 'vOffset', 'blur', 'spread', 'count', ...], input=>number, but should have 'px' appended at the end
-    // if 'color', color picker
-    // if 'style', call x.style and give drop down menu
     a: [
       {
         name: 'align-content',
@@ -26,7 +21,7 @@ const properties = {
     ],
     b: [
       {
-        name: 'background',
+        name: 'background-color',
         values: 'color',
         color: 'color'
       },
@@ -249,15 +244,11 @@ const properties = {
     ],
     z: [
       {
-        name: 'zIndex',
+        name: 'z-index',
         values: 'number',
         number: 'number'
       }
     ],
-}
-
-const EnterNum = () => {
-  return <input type='number'></input>
 }
 
 class Properties extends Component {
@@ -272,22 +263,25 @@ class Properties extends Component {
   handleClick = (e) => {
     this.setState({
       changePropertyName: e.target.name,
+      showPalette: true,
     }, () => {
       this.openForm();
     })
   }
 
   setValue = (value) => {
-    debugger
       this.setState({
       changePropertyValue: value,
     })
   }
 
   handleChangeComplete = (color, e) => {
-    this.setState({ changePropertyValue: color.hex });
+    this.setState({
+      changePropertyValue: color.hex,
+    }, () => {
+      document.querySelector('.colorPicker').style.display = 'none';
+    });
   };
-
 
   getDropMenu = (options) => {
     return <DropMenu options={options} setValue={this.setValue} />
@@ -297,6 +291,7 @@ class Properties extends Component {
     const pName = this.state.changePropertyName;
     const prprty = properties[pName[0]].find(obj => obj.name === pName);
     let form = [];
+
     const { values } = prprty;
     if (Array.isArray(values)) {
       form.push(this.getDropMenu(prprty.values));
@@ -304,10 +299,13 @@ class Properties extends Component {
       const propertiess = values.split(' ');
       propertiess.forEach(p => {
         if (Array.isArray(prprty[p])) {
-          form.push(this.getDropMenu(prprty.values));
+          form.push(this.getDropMenu(prprty[p]));
         } else if (prprty[p] === 'number') {
           const inputTag = <span>{p}<input label={p}></input>px</span>
           form.push(inputTag);
+        } else if (prprty[p] === 'color') {
+          const colorPicker = <div className='colorPicker'><CompactPicker color={this.state.changePropertyValue} onChangeComplete={this.handleChangeComplete} /></div>
+          form.push(colorPicker);
         }
       })
     }
@@ -317,8 +315,6 @@ class Properties extends Component {
         {form}
       </div>
     )
-      // for each x in subProperties, prprty[x]; if it is 'number', render <EnterNum onChange={this.handleChange} />
-      // if it is 'color', render <CompactPicker color={#fff} onChangeComplete={this.handleChangeComplete} />
   }
 
   makeAs = (properties, key) => {

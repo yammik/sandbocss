@@ -131,11 +131,6 @@ input {
   padding: 2px 0 !important;
 }
 
-.options>span>input {
-  width: 40px;
-  margin-left: 5px;
-}
-
 .classNameSubmit {
   background: transparent;
   color: white;
@@ -247,7 +242,16 @@ input:focus {
   font-size: 0.7em;
 }
 
-.options>button {
+.options>div>button {
   border: none;
   font-size: 0.7em;
+}
+
+.options>span>input {
+  width: 40px;
+  margin-left: 5px;
+}
+
+.options {
+  margin: 10px 0;
 }

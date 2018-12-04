@@ -144,7 +144,6 @@ const properties = {
       {
         name: 'left',
         values: 'number',
-        number: 'number'
       }
     ],
     m: [
@@ -164,8 +163,7 @@ const properties = {
       },
       {
         name: 'opacity',
-        values: 'float',
-        float: 'number'
+        values: 'number',
       },
       {
         name: 'outline',
@@ -209,14 +207,12 @@ const properties = {
       {
         name: 'right',
         values: 'number',
-        number: 'number'
       }
     ],
     t: [
       {
         name: 'top',
         values: 'number',
-        number: 'number'
       }
     ],
     v: [
@@ -233,14 +229,12 @@ const properties = {
       {
         name: 'width',
         values: 'number',
-        number: 'number'
       }
     ],
     z: [
       {
         name: 'z-index',
         values: 'number',
-        number: 'number'
       }
     ],
 }

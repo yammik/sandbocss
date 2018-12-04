@@ -215,26 +215,36 @@ class Container extends Component {
   }
 
   addStyle = (style) => {
-    const selectedDiv = this.findDiv(this.state.currentElement);
-    const newDiv = {
-      key: selectedDiv.key,
-      className: selectedDiv.className,
-      width: selectedDiv.width,
-      height: selectedDiv.height,
-      x: selectedDiv.x,
-      y: selectedDiv.y,
-      children: selectedDiv.children,
-      aligned: selectedDiv.aligned,
-      style: Object.assign({}, selectedDiv.style, style),
+    if (this.state.currentElement) {
+      if (Object.keys(style)[0] === 'width') {
+        style = {
+          width: `${style.width} !important`
+        }
+      }
+      const selectedDiv = this.findDiv(this.state.currentElement);
+      const newDiv = {
+        key: selectedDiv.key,
+        className: selectedDiv.className,
+        width: selectedDiv.width,
+        height: selectedDiv.height,
+        x: selectedDiv.x,
+        y: selectedDiv.y,
+        children: selectedDiv.children,
+        aligned: selectedDiv.aligned,
+        style: Object.assign({}, selectedDiv.style, style),
+      }
+      console.log(newDiv.style);
+
+      this.setState(prevState => {
+        return {
+          divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
+        }
+      }, () => {
+        console.log(`changed div ${this.state.currentElement} with ${Object.keys(style)}, ${style[Object.keys(style)]}`);
+      })
+
     }
 
-    this.setState(prevState => {
-      return {
-        divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
-      }
-    }, () => {
-      console.log(`changed div ${this.state.selectedDiv} with ${style}`);
-    })
   }
 
   render() {

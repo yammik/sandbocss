@@ -65,7 +65,6 @@ class Sandbox extends Component {
 
   dragSet = tf => {
     this.setState(prevState => {
-      console.log('\nSETTING DRAG');
       return {
         isDragging: tf,
       }
@@ -122,14 +121,26 @@ class Sandbox extends Component {
     </Rnd>
   }
 
+  convertToCamel = (styleObj) => {
+    var camelStyle = {};
+    for (const key in styleObj) {
+    const camelKey = key.replace(/-[a-z]/, l => l.toUpperCase()).replace('-','');
+    camelStyle[camelKey] = styleObj[key]
+    }
+    return camelStyle;
+  }
+
   renderDiv = (div, z=0) => {
-    const emph = Object.assign({}, div.style, styleEmph);
+
+    const camelStyle = this.convertToCamel(div.style)
+
+    const emph = Object.assign({}, camelStyle, styleEmph);
     const { currentElement } = this.props;
     return <Rnd
       key={div.key}
       className={div.className}
       id={div.key}
-      style={div.key === currentElement ? emph : div.style}
+      style={div.key === currentElement ? emph : camelStyle}
       onClick={this.handleClick}
       onDrag={(e, d) => {
         e.stopPropagation();
@@ -140,7 +151,7 @@ class Sandbox extends Component {
         class: {div.className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ')}
       </div>
       {div.children.map(div =>
-        this.renderDiv(div, div.style, z+1)
+        this.renderDiv(div, camelStyle, z+1)
       )}
     </Rnd>
   }

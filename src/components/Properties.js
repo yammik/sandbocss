@@ -10,49 +10,58 @@ class Properties extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      changePropertyName: '',
-      changePropertyValue: '',
+      propNameToChange: '',
+      propValueToChange: '',
       name: '',
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.changePropertyValue !== prevState.changePropertyValue) {
+    if (this.state.propValueToChange !== prevState.propValueToChange) {
       let style;
       if (this.state.name) {
-        style = { [this.state.name]: this.state.changePropertyValue};
+        style = { [this.state.name]: this.state.propValueToChange};
       } else {
-        style = { [this.state.changePropertyName]: this.state.changePropertyValue};
+        style = { [this.state.propNameToChange]: this.state.propValueToChange};
       }
       this.props.addStyle(style);
     }
   }
 
   handleClick = (e) => {
-    this.setState({
-      changePropertyName: e.target.name,
-    }, () => {
-      this.openForm();
-    })
+    console.log(e.target.name);
+    if (e.target.name !== this.state.propNameToChange) {
+      this.setState({
+        propNameToChange: e.target.name,
+        name: e.target.name,
+      }, () => {
+        this.openForm();
+      })
+    } else {
+      this.setState({
+        propNameToChange: '',
+        name: '',
+      })
+    }
   }
 
   setValue = (value) => {
       this.setState({
-      changePropertyValue: value,
+      propValueToChange: value,
     })
   }
 
   setName = (name) => {
     this.setState(prevState => (
       {
-        name: `${prevState.changePropertyName}-${name}`,
+        name: `${prevState.propNameToChange}-${name}`,
       }
     ))
   }
 
   handleChangeComplete = (color, e) => {
     this.setState({
-      changePropertyValue: color.hex,
+      propValueToChange: color.hex,
     });
   };
 
@@ -62,46 +71,53 @@ class Properties extends Component {
 
   handleInputChange = (e) => {
     this.setState({
-      changePropertyValue: `${e.target.value}px`,
-      name: e.target.name,
-    }, () => {
-      console.log(this.state.name, this.state.changePropertyValue);
+      propValueToChange: `${e.target.value}px`,
+      name: e.target.name.replace('-number',''),
     })
   }
 
+  getInputTag = (obj, key) => {
+    const fullName = key ? `${obj.name}-${key}` : obj.name
+    return <span>{key || obj.name}<input onChange={this.handleInputChange} name={`${fullName}`}></input>px</span>
+  }
+
+  getColorPicker = () => {
+    return <div className='colorPicker'><CompactPicker color={this.state.propValueToChange} onChangeComplete={this.handleChangeComplete} /></div>
+  }
+
   openForm = () => {
-    const pName = this.state.changePropertyName;
-    const prprty = properties[pName[0]].find(obj => obj.name === pName);
+    const pName = this.state.propNameToChange;
+    const propObj = properties[pName[0]].find(obj => obj.name === pName);
     let form = [];
-    const { values } = prprty;
-    if (Array.isArray(values)) {
-      form.push(this.getDropMenu(values));
-    } else {
-      const propertiess = values.split(' ');
-      propertiess.forEach(p => {
-        if (Array.isArray(prprty[p])) {
+    const { values } = propObj;
 
-          form.push(this.getDropMenu(prprty[p], p));
-
-        } else if (prprty[p] === 'number') {
-          const propFullName = `${pName}-${p}`;
-          const inputTag = <span>{p}<input onChange={this.handleInputChange} name={propFullName}></input>px</span>
-          form.push(inputTag);
-
-        } else if (prprty[p] === 'color') {
-
-          const colorPicker = <div className='colorPicker'><CompactPicker color={this.state.changePropertyValue} onChangeComplete={this.handleChangeComplete} /></div>
-          form.push(colorPicker);
-
-        }
+    if (typeof values === 'string') {
+      const specificProperties = values.split(' ');
+      specificProperties.forEach(prprtyKey => {
+        const specPropValue = propObj[prprtyKey];
+        form = this.formGen(form, propObj, specPropValue, prprtyKey)
       })
+    } else {
+      form = this.formGen(form, propObj, values);
     }
-
     return (
       <div className='options'>
         {form}
       </div>
     )
+  }
+
+
+  formGen = (bucket, obj, values, key='') => {
+    if (Array.isArray(values)) {
+      return bucket.concat(this.getDropMenu(values))
+    }
+    if (values === 'number') {
+      return bucket.concat(this.getInputTag(obj, key))
+    }
+    if (values === 'color') {
+      return bucket.concat(this.getColorPicker());
+    }
   }
 
   makeAs = (properties, key) => {
@@ -126,7 +142,7 @@ class Properties extends Component {
               {propKey}
               <span>{this.makeAs(properties, propKey)}</span>
 
-              { this.state.changePropertyName[0] === propKey ? this.openForm() : null }
+              { this.state.propNameToChange[0] === propKey ? this.openForm() : null }
 
             </li>
           )}

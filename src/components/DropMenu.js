@@ -8,25 +8,11 @@ class DropMenu extends Component {
     }
   }
 
-  showMenu = (e) => {
-    e.preventDefault();
-    this.setState({
-      showMenu: true,
-    }, () => {
-      document.addEventListener('click', this.closeMenu);
-    })
-  }
-
-  closeMenu = () => {
-    this.setState({
-      showMenu: false,
-    }, () => {
-      document.removeEventListener('click', this.closeMenu)
-    })
-  }
-
   handleClick = (e) => {
     console.log(e.target.name);
+    if (this.props.specific) {
+      this.props.setName(this.props.specific)
+    }
     this.props.setValue(e.target.name);
   }
 

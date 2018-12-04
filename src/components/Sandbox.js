@@ -32,6 +32,12 @@ class Sandbox extends Component {
     document.getElementById('controls').style.height = `${h}px;`
   }
 
+  divMaker = (style) => {
+    const Div = styled.div`
+      ${style}
+    `;
+    return Div;
+  }
 
   setCurrentDiv = e => {
     e.stopPropagation();
@@ -51,8 +57,9 @@ class Sandbox extends Component {
   handleClick = e => {
     e.stopPropagation();
     if (!this.state.isDragging && this.props.currentElement) {
-      console.log('\nunsetting drag');
       this.props.unsetCurrent();
+    } else {
+      this.props.setCurrent(e.target.id);
     }
   }
 
@@ -65,10 +72,6 @@ class Sandbox extends Component {
     })
   }
 
-  // componentDidUpdate?
-  componentDidUpdate(prevProps, prevState) {
-    // debugger
-  }
 
   renderInteractiveDiv = (div, z=0) => {
     const { updateDiv, currentElement, setCurrent } = this.props;
@@ -82,10 +85,8 @@ class Sandbox extends Component {
       onDrag={(e, d) => {
         e.stopPropagation();
         const newClassName = div.className.replace(/ center| left| right/, '');
-        // debugger
         const newX = e.target.getBoundingClientRect().left - document.getElementById('sandbox').getBoundingClientRect().left;
         const newY = e.target.getBoundingClientRect().top - document.getElementById('sandbox').getBoundingClientRect().top;
-        console.log("onDrag updateDiv with: ", newX, newY);
 
         updateDiv(div.key, newClassName, div.width, div.height, div.x, div.y);
         this.dragSet(true);
@@ -98,7 +99,6 @@ class Sandbox extends Component {
         const yi = this.state.yi;
         const dx = xf - xi;
         const dy = yf - yi;
-        // debugger
         const newX = div.x + dx;
         const newY = div.y + dy;
         console.log("onDragStop updateDiv with: ", newX, newY);
@@ -126,19 +126,30 @@ class Sandbox extends Component {
     </Rnd>
   }
 
-  renderDiv = (div, style, z=0) => {
+  renderDiv = (div, z=0) => {
+    const emph = Object.assign({}, div.style, styleEmph);
     const { currentElement, setCurrent } = this.props;
-    const Div = styled.div`
-      ${style}
-    `;
-    return Div;
+    return <Rnd
+      key={div.key}
+      className={div.className}
+      id={div.key}
+      style={div.key === currentElement ? emph : div.style}
+      onClick={this.handleClick}
+    >
+      <div>
+        class: {div.className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ')}
+      </div>
+      {div.children.map(div =>
+        this.renderDiv(div, div.style, z+1)
+      )}
+    </Rnd>
   }
 
   render() {
     const { mode, divs } = this.props;
     return (
       <div id="sandbox">
-        { mode === 'classic' ? divs.map(div => this.renderDiv(div, style))
+        { mode === 'classic' ? divs.map(div => this.renderDiv(div))
         : divs.map(div => this.renderInteractiveDiv(div))}
       </div>
     )

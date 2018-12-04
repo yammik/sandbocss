@@ -5,13 +5,6 @@ import Output from "./Output";
 import { v4 } from 'uuid';
 import Controls from "./Controls"
 
-// sandbox must keep track of divs and their attributes in state
-// sandbox has button to create div with unique id which will be used to search for and update the corresponding object in state.divs
-// sandbox gets information for each div from Canvas : as div state in Canvas is updated, state.divs is updated in Sandbox
-// sandbox must know the currently selected div in order to link to InteractiveCtrls
-// sandbox has state to store information about currently selected div
-// sandbox will pass in prop functions to InteractiveCtrls
-
 // in classic mode, style is set by Controls via Properties component
 // ^sets the style of currentElement
 class Container extends Component {
@@ -232,7 +225,7 @@ class Container extends Component {
       y: selectedDiv.y,
       children: selectedDiv.children,
       aligned: selectedDiv.aligned,
-      style: style,
+      style: Object.assign({}, selectedDiv.style, style),
     }
 
     this.setState(prevState => {
@@ -257,8 +250,8 @@ class Container extends Component {
             resize={this.resize} />
              :
           <Controls
-          addDiv={this.addDiv}
-          addStyle={this.addStyle} />
+            addDiv={this.addDiv}
+            addStyle={this.addStyle} />
         }
         <Sandbox
           mode={mode}

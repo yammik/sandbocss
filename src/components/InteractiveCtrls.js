@@ -4,13 +4,7 @@ import ClassNameForm from "./ClassNameForm";
 class InteractiveCtrls extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      className: 'test',
-    }
   }
-
-
-
 
   render() {
     const {

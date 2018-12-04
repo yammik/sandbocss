@@ -277,10 +277,10 @@ class Properties extends Component {
     })
   }
 
-  handleChange = (e) => {
-    console.log(e.target.value);
+  setValue = (value) => {
+    debugger
       this.setState({
-      changePropertyValue: e.target.value,
+      changePropertyValue: value,
     })
   }
 
@@ -290,20 +290,33 @@ class Properties extends Component {
 
 
   getDropMenu = (options) => {
-    return <DropMenu options={options} />
+    return <DropMenu options={options} setValue={this.setValue} />
   }
 
   openForm = () => {
     const pName = this.state.changePropertyName;
     const prprty = properties[pName[0]].find(obj => obj.name === pName);
     let form = [];
-    if (Array.isArray(prprty.values)) {
+    const { values } = prprty;
+    if (Array.isArray(values)) {
       form.push(this.getDropMenu(prprty.values));
+    } else {
+      const propertiess = values.split(' ');
+      propertiess.forEach(p => {
+        if (Array.isArray(prprty[p])) {
+          form.push(this.getDropMenu(prprty.values));
+        } else if (prprty[p] === 'number') {
+          const inputTag = <span>{p}<input label={p}></input>px</span>
+          form.push(inputTag);
+        }
+      })
     }
 
-    return form;
-      // if prprty.values is an array, render <DropMenu options={prprty.values} onChange={this.handleChange} />
-      // if prprty.values is a string, const subProperties = prprty.values.split(' ')
+    return (
+      <div class='options'>
+        {form}
+      </div>
+    )
       // for each x in subProperties, prprty[x]; if it is 'number', render <EnterNum onChange={this.handleChange} />
       // if it is 'color', render <CompactPicker color={#fff} onChangeComplete={this.handleChangeComplete} />
   }

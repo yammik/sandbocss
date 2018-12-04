@@ -83,7 +83,7 @@ class Sandbox extends Component {
       position={{ x: div.x, y: div.y }}
       onDrag={(e, d) => {
         e.stopPropagation();
-        const newClassName = div.className.replace(/ center| left| right/, '');
+        const newClassName = div.className.replace(/resizable| center| left| right/, '');
         updateDiv(div.key, newClassName, div.width, div.height, div.x, div.y);
         this.dragSet(true);
       }}
@@ -98,7 +98,6 @@ class Sandbox extends Component {
         const newX = div.x + dx;
         const newY = div.y + dy;
         updateDiv(div.key, div.className, div.width, div.height, newX, newY);
-        // updateDiv(div.key, div.className, div.width, div.height, div.x, div.y);
         setCurrent(div.key);
       }}
       onResize={(e, d, ref, delta, pos) => {
@@ -113,7 +112,7 @@ class Sandbox extends Component {
       z-index={z}
     >
       <div>
-        class: {div.className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ')}
+        class: {div.className.replace(/resizable| center| left| right/, '')}
       </div>
       {div.children.map(div =>
         this.renderInteractiveDiv(div, z+1)
@@ -135,11 +134,18 @@ class Sandbox extends Component {
     const camelStyle = this.convertToCamel(div.style)
 
     const emph = Object.assign({}, camelStyle, styleEmph);
-    const { currentElement } = this.props;
+    const { currentElement, setCurrent } = this.props;
     return <Rnd
       key={div.key}
       className={div.className}
       id={div.key}
+      onMouseDown={this.setCurrentDiv}
+      bounds='parent'
+      onClick={this.handleClick}
+      onResize={(e, d, ref, delta, pos) => {
+        e.stopPropagation();
+        setCurrent(div.key);
+      }}
       style={div.key === currentElement ? emph : camelStyle}
       onClick={this.handleClick}
       onDrag={(e, d) => {
@@ -148,7 +154,7 @@ class Sandbox extends Component {
       }}
     >
       <div>
-        class: {div.className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ')}
+        class: {div.className.replace(/resizable| center| left| right/, '')}
       </div>
       {div.children.map(div =>
         this.renderDiv(div, camelStyle, z+1)

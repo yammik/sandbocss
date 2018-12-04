@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 
 class Output extends Component {
   formatClassName = (className) => {
-    return className.replace(/ center| left| right/,'');
+    return className.replace(/resizable | center| left| right/, '');
   }
 
   lefted = () => {
@@ -33,6 +33,14 @@ class Output extends Component {
   }
 
   renderCode = div => {
+    if (div.style) {
+
+      return <code key={div.key}>
+        {'.'+this.formatClassName(div.className)+' {'}<br/>
+        {JSON.stringify(div.style).replace(/"/g,'')}
+      </code>
+    }
+
     const { sandboxWidth, sandboxHeight } = this.props;
       return <code key={div.key}>
         {'.'+this.formatClassName(div.className)+' {'}<br/>

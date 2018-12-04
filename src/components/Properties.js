@@ -60,6 +60,15 @@ class Properties extends Component {
     return <DropMenu specific={specific} options={options} setValue={this.setValue} setName={this.setName} />
   }
 
+  handleInputChange = (e) => {
+    this.setState({
+      changePropertyValue: `${e.target.value}px`,
+      name: e.target.name,
+    }, () => {
+      console.log(this.state.name, this.state.changePropertyValue);
+    })
+  }
+
   openForm = () => {
     const pName = this.state.changePropertyName;
     const prprty = properties[pName[0]].find(obj => obj.name === pName);
@@ -75,8 +84,8 @@ class Properties extends Component {
           form.push(this.getDropMenu(prprty[p], p));
 
         } else if (prprty[p] === 'number') {
-
-          const inputTag = <span>{p}<input label={p}></input>px</span>
+          const propFullName = `${pName}-${p}`;
+          const inputTag = <span>{p}<input onChange={this.handleInputChange} name={propFullName}></input>px</span>
           form.push(inputTag);
 
         } else if (prprty[p] === 'color') {
@@ -89,14 +98,14 @@ class Properties extends Component {
     }
 
     return (
-      <div class='options'>
+      <div className='options'>
         {form}
       </div>
     )
   }
 
   makeAs = (properties, key) => {
-    const anchors = properties[key].map(x => <a href="#" name={x.name} onClick={this.handleClick}>{x.name}</a>);
+    const anchors = properties[key].map(x => <a href="#" name={x.name} key={x.name} onClick={this.handleClick}>{x.name}</a>);
     const result = [];
     anchors.forEach((a, i) => {
       result.push(a);
@@ -113,7 +122,7 @@ class Properties extends Component {
         <ul>
           {Object.keys(properties).map(
             propKey =>
-            <li>
+            <li key={propKey}>
               {propKey}
               <span>{this.makeAs(properties, propKey)}</span>
 

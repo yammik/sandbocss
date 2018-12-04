@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import ClassNameForm from "./ClassNameForm";
 
 class InteractiveCtrls extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const {
       align,

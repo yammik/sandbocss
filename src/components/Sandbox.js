@@ -85,9 +85,6 @@ class Sandbox extends Component {
       onDrag={(e, d) => {
         e.stopPropagation();
         const newClassName = div.className.replace(/ center| left| right/, '');
-        const newX = e.target.getBoundingClientRect().left - document.getElementById('sandbox').getBoundingClientRect().left;
-        const newY = e.target.getBoundingClientRect().top - document.getElementById('sandbox').getBoundingClientRect().top;
-
         updateDiv(div.key, newClassName, div.width, div.height, div.x, div.y);
         this.dragSet(true);
       }}
@@ -101,7 +98,6 @@ class Sandbox extends Component {
         const dy = yf - yi;
         const newX = div.x + dx;
         const newY = div.y + dy;
-        console.log("onDragStop updateDiv with: ", newX, newY);
         updateDiv(div.key, div.className, div.width, div.height, newX, newY);
         // updateDiv(div.key, div.className, div.width, div.height, div.x, div.y);
         setCurrent(div.key);
@@ -128,13 +124,17 @@ class Sandbox extends Component {
 
   renderDiv = (div, z=0) => {
     const emph = Object.assign({}, div.style, styleEmph);
-    const { currentElement, setCurrent } = this.props;
+    const { currentElement } = this.props;
     return <Rnd
       key={div.key}
       className={div.className}
       id={div.key}
       style={div.key === currentElement ? emph : div.style}
       onClick={this.handleClick}
+      onDrag={(e, d) => {
+        e.stopPropagation();
+        this.dragSet(true);
+      }}
     >
       <div>
         class: {div.className.split(' ').filter(word => !['resizable', 'center', 'left', 'right'].includes(word)).join(' ')}

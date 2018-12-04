@@ -232,6 +232,8 @@ class Container extends Component {
       return {
         divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
       }
+    }, () => {
+      console.log(`changed div ${this.state.selectedDiv} with ${style}`);
     })
   }
 

@@ -3,10 +3,6 @@ import ClassNameForm from "./ClassNameForm";
 import Properties from "./Properties";
 
 class Controls extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <div id="controls">

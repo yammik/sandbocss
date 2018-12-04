@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+
+// {div.className.includes('center') ? this.centered() : div.className.includes('left') ? this.lefted() : div.className.includes('right') ? this.righted() : this.defaultProp(div) }
+
 class Output extends Component {
   formatClassName = (className) => {
     return className.replace(/ center| left| right/,'');
@@ -35,7 +38,8 @@ class Output extends Component {
         {'.'+this.formatClassName(div.className)+' {'}<br/>
         {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
         {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
-        {div.className.includes('center') ? this.centered() : div.className.includes('left') ? this.lefted() : div.className.includes('right') ? this.righted() : this.defaultProp(div) }<br/>
+        {this.defaultProp(div)}
+        <br/>
         {'}'}<br/><br/>
 
         {div.children.map(dv => this.renderCode(dv))}

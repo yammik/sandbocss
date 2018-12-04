@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import Controls from "./Controls";
+import InteractiveCtrls from "./InteractiveCtrls";
 import Sandbox from "./Sandbox";
 import Output from "./Output";
 import { v4 } from 'uuid';
-
+import Controls from "./Controls"
 
 // sandbox must keep track of divs and their attributes in state
 // sandbox has button to create div with unique id which will be used to search for and update the corresponding object in state.divs
 // sandbox gets information for each div from Canvas : as div state in Canvas is updated, state.divs is updated in Sandbox
-// sandbox must know the currently selected div in order to link to Controls
+// sandbox must know the currently selected div in order to link to InteractiveCtrls
 // sandbox has state to store information about currently selected div
-// sandbox will pass in prop functions to Controls
+// sandbox will pass in prop functions to InteractiveCtrls
+
+// in classic mode, style is set by Controls via Properties component
+// ^sets the style of currentElement
 class Container extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       divs: [],
       currentElement: null,
@@ -55,7 +58,41 @@ class Container extends Component {
     return this.state.divs.find(dv => dv.key === key) || matches[0];
   }
 
-  updateDiv = (divKey, className, width, height, x, y, aligned=false) => {
+  updatePositionDOM = (divKey) => {
+    this.setState(prevState => {
+        // this is supposed to set the X and Y of the newly positioned div:
+        // after CSS sets the div to desired position, get coordinates and update div properties in the state
+        // works when aligning with buttons
+        // somehow brings coords back to pre-alignment when dragging or using button to move (x, y)
+        const newX = document.getElementById(divKey).getBoundingClientRect().left-document.getElementById('sandbox').getBoundingClientRect().left;
+        const newY = document.getElementById(divKey).getBoundingClientRect().top-document.getElementById('sandbox').getBoundingClientRect().top;
+        // debugger
+        console.log('updateDiv second time with coordinates: ', newX, newY);
+        console.log('\n');
+
+        const selectedDiv = this.findDiv(divKey);
+        const newDiv = {
+          key: selectedDiv.key,
+          className: selectedDiv.className,
+          width: selectedDiv.width,
+          height: selectedDiv.height,
+          // x: selectedDiv.x,
+          x: newX,
+          // x: 100,
+          // y: selectedDiv.y,
+          y: newY,
+          // y: 100,
+          children: selectedDiv.children,
+          aligned: selectedDiv.aligned,
+          style: selectedDiv.style,
+        }
+        return {
+          divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
+        }
+      })
+  }
+
+  updateDiv = (divKey, className, width, height, x, y, aligned=false, cb=null) => {
     const selectedDiv = this.findDiv(divKey);
     const newDiv = {
       key: selectedDiv.key,
@@ -66,13 +103,18 @@ class Container extends Component {
       y: y,
       children: selectedDiv.children,
       aligned: aligned,
+      style: selectedDiv.style,
     }
 
-    // if (this.state.currentElement === selectedDiv.key) {
-      this.setState({
+    this.setState(prevState => {
+      return {
         divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
-      })
-    // }
+      }
+    }, () => {
+      if (cb) {
+        cb(divKey);
+      }
+    })
   }
 
   addDiv = (name) => {
@@ -101,32 +143,37 @@ class Container extends Component {
             y: div.y,
             children: div.children.concat(newDiv),
             aligned: div.aligned,
+            style: div.style,
           }
-        })
+        }),
       })
     } else {
       this.setState({
         divs: this.state.divs.concat(newDiv),
+        currentElement: newDiv.key,
       })
     }
   }
 
-
   // align div
   align = (direction) => {
     const div = this.findCurrent();
+
     if (div) {
-      this.updateDiv(div.key, div.className, div.width, div.height, 0, 0);
       const newClass = div.className.replace(/ center| left| right/,'') + ' ' + direction;
-      this.updateDiv(div.key, newClass, div.width, div.height, div.x, div.y, true);
+      this.updateDiv(div.key, newClass, div.width, div.height, div.x, div.y, true, this.updatePositionDOM);
     }
   }
 
   // directional movements
   move = (direction) => {
     const div = this.findCurrent();
-    let newX = div.x, newY = div.y;
     if (div) {
+      const newClass = div.className.replace(/ center| left| right/,'');
+      console.log('moved');
+      console.log(newClass);
+
+      let newX = div.x, newY = div.y;
       switch (direction) {
         case 'right':
           newX = div.x+50;
@@ -143,8 +190,8 @@ class Container extends Component {
         default:
           break;
       }
+      this.updateDiv(div.key, newClass, div.width, div.height, newX, newY);
     }
-    this.updateDiv(div.key, div.className, div.width, div.height, newX, newY);
   }
 
   // size change controls
@@ -174,17 +221,47 @@ class Container extends Component {
     }
   }
 
+  addStyle = (style) => {
+    const selectedDiv = this.findDiv(this.state.currentElement);
+    const newDiv = {
+      key: selectedDiv.key,
+      className: selectedDiv.className,
+      width: selectedDiv.width,
+      height: selectedDiv.height,
+      x: selectedDiv.x,
+      y: selectedDiv.y,
+      children: selectedDiv.children,
+      aligned: selectedDiv.aligned,
+      style: style,
+    }
+
+    this.setState(prevState => {
+      return {
+        divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
+      }
+    })
+  }
+
   render() {
     const { divs, currentElement } = this.state;
+    const { mode } = this.props;
     return (
       <div id="container">
-        <Controls
-          updateDiv={this.updateDiv}
+        {
+          mode === 'interactive' ?
+          <InteractiveCtrls
+            updateDiv={this.updateDiv}
+            addDiv={this.addDiv}
+            align={this.align}
+            move={this.move}
+            resize={this.resize} />
+             :
+          <Controls
           addDiv={this.addDiv}
-          align={this.align}
-          move={this.move}
-          resize={this.resize} />
+          addStyle={this.addStyle} />
+        }
         <Sandbox
+          mode={mode}
           updateDiv={this.updateDiv}
           currentElement={currentElement}
           setCurrent={this.setCurrent}
@@ -202,3 +279,4 @@ class Container extends Component {
 }
 
 export default Container;
+// in classic mode,

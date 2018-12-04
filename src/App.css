@@ -1,32 +1,74 @@
 * {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1em;
+  font-size: 12px;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
 }
 
 body {
   background-image: linear-gradient(to top right, rgba(168,148,122,0.7), rgba(48,69,109,0.7));
+  text-align: center;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style: none;
+  padding-bottom: 6px;
+  font-weight: bold;
+}
+
+span {
+  font-weight: normal;
+  padding-left: 8px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  width: 82%;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+span::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 0 5px;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: rgb(91, 105, 135)
 }
 
 #navbar {
-  height: 150px;
+  height: 100px;
   position: relative;
 }
 
 #title {
-  /* font-family: 'Cutive Mono', monospace; */
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
   align-content: center;
   font-size: 2.6em;
   font-weight: 700;
   color: #fff;
   margin: auto;
-  padding-top: 60px;
+  padding-top: 30px;
   opacity: 1;
 }
 
 #container {
-  clear: both;
+  /* clear: both; */
   padding: 20px 0;
+  display: table;
+  width: 100%;
 }
 
 #controls {
@@ -36,8 +78,15 @@ body {
   font-size: 1em;
   color: white;
   text-align: center;
-  padding: 30px 0;
-  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Cutive Mono', monospace;
+
+  background-color: rgba(55,55,55,0.3);
+}
+
+#properties {
+  padding: 8px;
+  text-align: left;
 }
 
 #sandbox {
@@ -56,7 +105,7 @@ body {
   float: right;
   width: 20%;
   overflow-y: scroll;
-  height: 600px;
+  height: 400px;
   font-size: 0.5em;
 }
 
@@ -169,4 +218,21 @@ button:hover {
 
 input:focus {
   outline: none;
+}
+
+.modeSelection {
+  padding: 10px 20px;
+}
+
+#selectMode {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.options>button {
+  border: none;
 }

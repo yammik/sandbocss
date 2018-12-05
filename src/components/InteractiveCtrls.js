@@ -1,12 +1,32 @@
 import React, { Component } from 'react';
 import ClassNameForm from "./ClassNameForm";
+import { ChromePicker } from 'react-color';
 
 class InteractiveCtrls extends Component {
+  constructor() {
+    super()
+    this.state = {
+      color: '#fff',
+      alpha: 1,
+    }
+  }
+
+  handleChangeComplete = (color, e, a, b, c) => {
+    this.setState({
+      color: color.hex,
+      alpha: color.rgb.a,
+      rgba: color.rgb,
+    });
+
+    this.props.setColor(Object.values(color.rgb));
+  };
+
   render() {
     const {
       align,
       move,
       resize,
+      setColor
     } = this.props;
 
     return (
@@ -53,9 +73,7 @@ class InteractiveCtrls extends Component {
           </button>
         </div>
 
-        <div id="palette">
-
-        </div>
+        <div className='colorPicker'><ChromePicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} /></div>
       </div>
     )
   }

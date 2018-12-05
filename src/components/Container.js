@@ -33,7 +33,7 @@ class Container extends Component {
 
   unsetCurrent = () => {
     this.setState({
-      currentElement: null
+      currentElement: null,
     })
   }
 
@@ -222,7 +222,6 @@ class Container extends Component {
         aligned: selectedDiv.aligned,
         style: Object.assign({}, selectedDiv.style, style),
       }
-
       this.setState(prevState => {
         return {
           divs: this.state.divs.map(div => div.key !== selectedDiv.key ? Object.assign({}, div, { children: div.children.map(dv => dv.key !== selectedDiv.key ? dv : newDiv) }) : newDiv),
@@ -230,9 +229,7 @@ class Container extends Component {
       }, () => {
         console.log(`changed div ${this.state.currentElement} with ${Object.keys(style)}, ${style[Object.keys(style)]}`);
       })
-
     }
-
   }
 
   removeDiv = () => {
@@ -249,11 +246,18 @@ class Container extends Component {
     })
   }
 
+  setColor = (rgba) => {
+    const style = {
+      ['background-color']: `rgba(${rgba})`
+    }
+    this.addStyle(style);
+  }
+
   render() {
     const { divs, currentElement } = this.state;
     const { mode } = this.props;
     return (
-      <div id="container">
+      <div id="main">
         {
           mode === 'interactive' ?
           <InteractiveCtrls
@@ -262,6 +266,7 @@ class Container extends Component {
             removeDiv={this.removeDiv}
             align={this.align}
             move={this.move}
+            setColor={this.setColor}
             resize={this.resize} />
              :
           <Controls

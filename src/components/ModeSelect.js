@@ -12,7 +12,7 @@ class ModeSelect extends Component {
           classic
         </button>
         <button className='modeSelection' name='interactive' onClick={this.handleClick}>
-          interactive
+          interactive (beta)
         </button>
       </div>
     )

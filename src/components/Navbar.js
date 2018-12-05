@@ -4,7 +4,7 @@ const Navbar = () => {
 
 
   return (
-    <div id="navbar">
+    <div id="banner">
       <div id="title" onClick={() => window.location.reload()}>
         sandboCSS
       </div>

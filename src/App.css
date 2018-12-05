@@ -32,6 +32,28 @@ li>span {
   vertical-align: bottom;
 }
 
+label {
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+input#authEmail {
+  width: 190px;
+  transition: width 0.3s ease;
+}
+
+input#authEmail:focus {
+  width: 250px;
+}
+
+input#authPassword {
+  width: 190px;
+  transition: width 0.3s ease;
+}
+
+input#authPassword:focus {
+  width: 250px;
+}
 
 span::-webkit-scrollbar {
   display: none;
@@ -49,7 +71,7 @@ a:hover {
   color: rgb(91, 105, 135)
 }
 
-#navbar {
+#banner {
   height: 100px;
   position: relative;
 }
@@ -66,7 +88,17 @@ a:hover {
   opacity: 1;
 }
 
-#container {
+.chrome-picker {
+  margin: auto;
+}
+
+.container {
+  display: flex;
+  height: 60px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#main {
   padding: 20px 0;
   display: table;
   width: 100%;

@@ -6,14 +6,14 @@ import styled from 'styled-components';
 const style = {
   alignItems: "center",
   justifyContent: "center",
-  border: "solid 1px #ddd",
+  outline: "solid 1px #ddd",
   background: "rgba(100,100,100,0.6)"
 };
 
 const styleEmph = {
   alignItems: "center",
   justifyContent: "center",
-  border: "solid 2px rgba(48,69,109,0.7)",
+  outline: "solid 2px rgba(48,69,109,0.7)",
 }
 
 class Sandbox extends Component {
@@ -41,9 +41,6 @@ class Sandbox extends Component {
 
   setCurrentDiv = e => {
     e.stopPropagation();
-    // console.log('setting current div');
-    // this.state.isDragging ? this.dragSet(false) : this.dragSet(true);
-    // this.props.setCurrent(e.target.id);
   }
 
   setInitialCoords = e => {
@@ -76,12 +73,22 @@ class Sandbox extends Component {
 
 
   renderInteractiveDiv = (div, z=0) => {
+    let divStyle;
+    if (div.style['background-color']) {
+      divStyle = Object.assign({}, style, {
+        ['background-color']: div.style['background-color']
+      })
+    }
+    if (this.props.currentElement === div.key) {
+      divStyle = Object.assign({}, divStyle, {outline: 'solid 2px red'})
+    }
+    debugger
     const { updateDiv, currentElement, setCurrent } = this.props;
     return <Rnd
       key={div.key}
       className={div.className}
       id={div.key}
-      style={div.key === currentElement ? styleEmph : style}
+      style={divStyle}
       size={{ width: div.width, height: div.height }}
       position={{ x: div.x, y: div.y }}
       onDrag={(e, d) => {
@@ -92,15 +99,7 @@ class Sandbox extends Component {
       }}
       onDragStop={(e, d) => {
         e.stopPropagation();
-        const xf = e.clientX;
-        const yf = e.clientY;
-        const xi = this.state.xi;
-        const yi = this.state.yi;
-        const dx = xf - xi;
-        const dy = yf - yi;
-        const newX = div.x + dx;
-        const newY = div.y + dy;
-        updateDiv(div.key, div.className, div.width, div.height, newX, newY);
+        updateDiv(div.key, div.className, div.width, div.height, d.x, d.y);
         setCurrent(div.key);
       }}
       onResize={(e, d, ref, delta, pos) => {
@@ -174,7 +173,6 @@ class Sandbox extends Component {
       ${outline};
     `;
 
-    // debugger
     return <Div
       key={div.key}
       className={div.className.replace(/resizable| center| left| right/, '')}

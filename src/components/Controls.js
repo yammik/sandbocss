@@ -7,6 +7,7 @@ class Controls extends Component {
     return (
       <div id="controls">
         <ClassNameForm addDiv={this.props.addDiv} />
+        <button onClick={this.props.removeDiv}>remove selected div</button>
         <Properties addStyle={this.props.addStyle} />
       </div>
     )

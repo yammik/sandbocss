@@ -33,7 +33,7 @@ class Output extends Component {
   }
 
   formatCSS = styleObj => {
-    return JSON.stringify(styleObj).replace(/"|{|}/g, '').replace(/,/g,';\n').replace(/:/g, ': ')
+    return JSON.stringify(styleObj).replace(/"|{|}/g, '').replace(/:/g, ': ').split(',').map(str => `  ${str};`).join('\n')
   }
 
   renderCodeWithCleanStyleObj = (styleObj) => {

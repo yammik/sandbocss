@@ -259,12 +259,14 @@ class Container extends Component {
           <InteractiveCtrls
             updateDiv={this.updateDiv}
             addDiv={this.addDiv}
+            removeDiv={this.removeDiv}
             align={this.align}
             move={this.move}
             resize={this.resize} />
              :
           <Controls
             addDiv={this.addDiv}
+            removeDiv={this.removeDiv}
             addStyle={this.addStyle} />
         }
         <Sandbox

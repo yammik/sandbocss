@@ -29,6 +29,7 @@ class Properties extends Component {
   }
 
   handleClick = (e) => {
+    e.preventDefault();
     console.log(e.target.name);
     if (e.target.name !== this.state.propNameToChange) {
       this.setState({

@@ -6,19 +6,16 @@ class InteractiveCtrls extends Component {
   constructor() {
     super()
     this.state = {
-      color: '#fff',
-      alpha: 1,
+      color: '',
     }
   }
 
-  handleChangeComplete = (color, e, a, b, c) => {
+  handleChangeComplete = (color, e) => {
     this.setState({
-      color: color.hex,
-      alpha: color.rgb.a,
-      rgba: color.rgb,
+      color: color.rgb,
     });
 
-    this.props.setColor(Object.values(color.rgb));
+    this.props.setColor(Object.values(color));
   };
 
   render() {

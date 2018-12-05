@@ -5,8 +5,6 @@ import Output from "./Output";
 import { v4 } from 'uuid';
 import Controls from "./Controls"
 
-// in classic mode, style is set by Controls via Properties component
-// ^sets the style of currentElement
 class Container extends Component {
   constructor(props) {
     super(props);
@@ -53,14 +51,8 @@ class Container extends Component {
 
   updatePositionDOM = (divKey) => {
     this.setState(prevState => {
-        // this is supposed to set the X and Y of the newly positioned div:
-        // after CSS sets the div to desired position, get coordinates and update div properties in the state
-        // works when aligning with buttons
-        // somehow brings coords back to pre-alignment when dragging or using button to move (x, y)
         const newX = document.getElementById(divKey).getBoundingClientRect().left-document.getElementById('sandbox').getBoundingClientRect().left;
         const newY = document.getElementById(divKey).getBoundingClientRect().top-document.getElementById('sandbox').getBoundingClientRect().top;
-        // debugger
-        console.log('updateDiv second time with coordinates: ', newX, newY);
         console.log('\n');
 
         const selectedDiv = this.findDiv(divKey);
@@ -69,12 +61,8 @@ class Container extends Component {
           className: selectedDiv.className,
           width: selectedDiv.width,
           height: selectedDiv.height,
-          // x: selectedDiv.x,
           x: newX,
-          // x: 100,
-          // y: selectedDiv.y,
           y: newY,
-          // y: 100,
           children: selectedDiv.children,
           aligned: selectedDiv.aligned,
           style: selectedDiv.style,
@@ -120,6 +108,7 @@ class Container extends Component {
       y: 0,
       children: [],
       aligned: false,
+      style: {},
     }
     if (this.state.currentElement) {
       this.setState({
@@ -218,7 +207,7 @@ class Container extends Component {
     if (this.state.currentElement) {
       if (Object.keys(style)[0] === 'width') {
         style = {
-          width: `${style.width} !important`
+          width: `${style.width}`
         }
       }
       const selectedDiv = this.findDiv(this.state.currentElement);
@@ -233,7 +222,6 @@ class Container extends Component {
         aligned: selectedDiv.aligned,
         style: Object.assign({}, selectedDiv.style, style),
       }
-      console.log(newDiv.style);
 
       this.setState(prevState => {
         return {
@@ -245,6 +233,20 @@ class Container extends Component {
 
     }
 
+  }
+
+  removeDiv = () => {
+    this.setState(prevState => {
+      return {
+        divs: prevState.divs
+          .filter(div => div.key !== prevState.currentElement)
+          .map(div => {
+            return {...div,
+              children: div.children.filter(dv => dv.key !== prevState.currentElement),
+            }
+          })
+      }
+    })
   }
 
   render() {
@@ -274,6 +276,7 @@ class Container extends Component {
           setSandboxDimensions={this.setSandboxDimensions}
           divs={divs} />
         <Output
+          mode={mode}
           divs={divs}
           sandboxWidth={this.state.sandboxWidth}
           sandboxHeight={this.state.sandboxHeight} />

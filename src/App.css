@@ -1,5 +1,5 @@
 * {
-  font-size: 12px;
+  font-size: 18px;
 }
 
 html, body {
@@ -18,7 +18,7 @@ ul {
 
 li {
   list-style: none;
-  padding-bottom: 6px;
+  padding-bottom: 9px;
   font-weight: bold;
 }
 
@@ -39,6 +39,7 @@ span::-webkit-scrollbar {
 
 a {
   text-decoration: none;
+  font-size: 1.2em;
   color: white;
   padding: 0 5px;
   transition: color 0.3s ease;
@@ -66,7 +67,6 @@ a:hover {
 }
 
 #container {
-  /* clear: both; */
   padding: 20px 0;
   display: table;
   width: 100%;
@@ -79,7 +79,6 @@ a:hover {
   font-size: 1em;
   color: white;
   text-align: center;
-  /* font-family: 'Montserrat', sans-serif; */
   font-family: 'Cutive Mono', monospace;
 
   background-color: rgba(55,55,55,0.3);
@@ -107,21 +106,23 @@ a:hover {
   width: 20%;
   overflow-y: scroll;
   height: 400px;
-  font-size: 0.5em;
+  font-size: 0.3em;
+  color: white;
+  font-family: 'Cutive Mono', monospace;
+  text-align: left;
+  padding: 10px;
+  background-color: rgba(55,55,55,0.3);
+
 }
 
 .classNameForm {
   padding: 30px 0;
 }
 
-/* .classNameInput {
-  border: 0px solid #fff;
-  border-bottom-width: 1px;
-  background-color: transparent;
-  text-align: center;
-  caret-color: white;
-  color: white;
-} */
+.inputSpan {
+  display: block;
+}
+
 input {
   border: 0px solid #fff;
   border-bottom-width: 1px;
@@ -129,7 +130,6 @@ input {
   text-align: center;
   caret-color: white;
   color: white;
-  padding: 2px 0 !important;
 }
 
 .classNameSubmit {

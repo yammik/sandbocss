@@ -71,14 +71,14 @@ class Properties extends Component {
 
   handleInputChange = (e) => {
     this.setState({
-      propValueToChange: `${e.target.value}px`,
+      propValueToChange: e.target.name !== 'opacity' ? `${e.target.value}px` : e.target.value,
       name: e.target.name.replace('-number',''),
     })
   }
 
   getInputTag = (obj, key) => {
-    const fullName = key ? `${obj.name}-${key}` : obj.name
-    return <span>{key || obj.name}<input onChange={this.handleInputChange} name={`${fullName}`}></input>px</span>
+    const fullName = key && key !== 'number' ? `${obj.name}-${key}` : obj.name;
+    return <span className="inputSpan">{key || obj.name}<input onChange={this.handleInputChange} name={`${fullName}`} className ></input>px</span>
   }
 
   getColorPicker = () => {

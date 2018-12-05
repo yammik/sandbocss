@@ -41,9 +41,9 @@ class Sandbox extends Component {
 
   setCurrentDiv = e => {
     e.stopPropagation();
-    this.state.isDragging ? this.dragSet(false) : this.dragSet(true);
-    this.props.setCurrent(e.target.id);
-    this.setInitialCoords(e);
+    // console.log('setting current div');
+    // this.state.isDragging ? this.dragSet(false) : this.dragSet(true);
+    // this.props.setCurrent(e.target.id);
   }
 
   setInitialCoords = e => {
@@ -56,7 +56,10 @@ class Sandbox extends Component {
 
   handleClick = e => {
     e.stopPropagation();
+    console.log(this.state.isDragging);
+    console.log(this.props.currentElement);
     if (!this.state.isDragging && this.props.currentElement) {
+      console.log('unsetting current div');
       this.props.unsetCurrent();
     } else {
       this.props.setCurrent(e.target.id);
@@ -111,9 +114,7 @@ class Sandbox extends Component {
       bounds='parent'
       z-index={z}
     >
-      <div>
-        class: {div.className.replace(/resizable| center| left| right/, '')}
-      </div>
+      class: {div.className.replace(/resizable| center| left| right/, '')}
       {div.children.map(div =>
         this.renderInteractiveDiv(div, z+1)
       )}
@@ -139,6 +140,7 @@ class Sandbox extends Component {
       key={div.key}
       className={div.className}
       id={div.key}
+      style={div.key === currentElement ? emph : camelStyle}
       onMouseDown={this.setCurrentDiv}
       bounds='parent'
       onClick={this.handleClick}
@@ -146,27 +148,53 @@ class Sandbox extends Component {
         e.stopPropagation();
         setCurrent(div.key);
       }}
-      style={div.key === currentElement ? emph : camelStyle}
-      onClick={this.handleClick}
       onDrag={(e, d) => {
         e.stopPropagation();
         this.dragSet(true);
       }}
     >
-      <div>
         class: {div.className.replace(/resizable| center| left| right/, '')}
-      </div>
       {div.children.map(div =>
         this.renderDiv(div, camelStyle, z+1)
       )}
     </Rnd>
   }
 
+  renderStyledDiv = (div) => {
+    const outlines = Object.keys(div.style).filter(cssProperty => cssProperty.includes('outline'));
+    const divOutline = outlines.map(outlineProp => {
+      return { [outlineProp]: div.style[outlineProp] }
+    })
+    let outline = divOutline || `outline: solid 1px black`;
+    if (this.props.currentElement === div.key) {
+      outline = `outline: solid 2px red`
+    }
+    const Div = styled.div`
+      ${div.style};
+      ${outline};
+    `;
+
+    // debugger
+    return <Div
+      key={div.key}
+      className={div.className.replace(/resizable| center| left| right/, '')}
+      id={div.key}
+      onMouseDown={this.setCurrentDiv}
+      bounds='parent'
+      onClick={this.handleClick}
+      >
+        {div.className.replace(/resizable| center| left| right/, '')}
+        {div.children.map(div =>
+          this.renderStyledDiv(div)
+        )}
+      </Div>
+  }
+
   render() {
     const { mode, divs } = this.props;
     return (
       <div id="sandbox">
-        { mode === 'classic' ? divs.map(div => this.renderDiv(div))
+        { mode === 'classic' ? divs.map(div => this.renderStyledDiv(div))
         : divs.map(div => this.renderInteractiveDiv(div))}
       </div>
     )

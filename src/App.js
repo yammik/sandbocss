@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import Navbar from "./components/Navbar";
-import Container from "./components/Container"
-import ModeSelect from "./components/ModeSelect"
+import Container from "./components/Container";
+import ModeSelect from "./components/ModeSelect";
+import { Provider } from 'react-redux';
+import { store } from './store'
 
 
 class App extends Component {
@@ -16,15 +18,16 @@ class App extends Component {
       mode: mode,
     })
   }
-
   render() {
     const { mode } = this.state;
     return (
-      <>
+      <Provider>
+        <>
         <Navbar />
         { !mode ? <ModeSelect selectMode={this.selectMode} /> : <Container mode={mode} /> }
 
-      </>
+        </>
+      </Provider>
     );
   }
 }

@@ -113,7 +113,7 @@ class Sandbox extends Component {
       bounds='parent'
       z-index={z}
     >
-      class: {div.className.replace(/resizable| center| left| right/, '')}
+      {div.className.replace(/resizable| center| left| right/, '')}
       {div.children.map(div =>
         this.renderInteractiveDiv(div, z+1)
       )}
@@ -152,7 +152,7 @@ class Sandbox extends Component {
         this.dragSet(true);
       }}
     >
-        class: {div.className.replace(/resizable| center| left| right/, '')}
+        {div.className.replace(/resizable| center| left| right/, '')}
       {div.children.map(div =>
         this.renderDiv(div, camelStyle, z+1)
       )}

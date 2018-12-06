@@ -109,7 +109,7 @@ class Output extends Component {
       </pre>
       <CopyToClipboard text={cssCodeInStr}
         onCopy={() => this.setState({copied: true})}>
-        <span>{this.state.copied ? 'copied!' : 'copy CSS code'}</span>
+        <span className="copyLink">{this.state.copied ? 'copied!' : 'copy CSS code'}</span>
       </CopyToClipboard>
       </div>
 

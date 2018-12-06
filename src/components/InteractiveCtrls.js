@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import ClassNameForm from "./ClassNameForm";
-import { ChromePicker } from 'react-color';
+import { ChromePicker, MaterialPicker } from 'react-color';
 
 class InteractiveCtrls extends Component {
   constructor() {
     super()
     this.state = {
       color: '',
+      windowWidth: 0,
     }
   }
 
@@ -17,6 +18,14 @@ class InteractiveCtrls extends Component {
 
     this.props.setColor(Object.values(color.rgb));
   };
+
+  componentDidMount() {
+    window.addEventListener('resize', e => {
+      this.setState({
+        windowWidth: window.innerWidth,
+      })
+    })
+  }
 
   render() {
     const {
@@ -70,7 +79,7 @@ class InteractiveCtrls extends Component {
           </button>
         </div>
 
-        <div className='colorPicker'><ChromePicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} /></div>
+        <div className='colorPicker'>{this.state.windowWidth > 1300 ? <ChromePicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} /> : <MaterialPicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} />}</div>
       </div>
     )
   }

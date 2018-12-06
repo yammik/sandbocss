@@ -127,7 +127,7 @@ a:hover {
 }
 
 #properties {
-  padding: 8px;
+  padding: 12px;
   text-align: left;
 }
 
@@ -153,7 +153,7 @@ a:hover {
   margin: 0 15px;
   background-color: rgba(55,55,55,0.3);
   position: relative;
-
+  padding: 12px;
 }
 
 .classNameForm {
@@ -162,6 +162,10 @@ a:hover {
 
 .inputSpan {
   display: block;
+}
+
+pre {
+  padding: 20px;
 }
 
 input {

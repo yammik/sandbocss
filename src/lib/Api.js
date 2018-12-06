@@ -1,13 +1,28 @@
 var axios = require('axios');
-let apiHost = `http://${process.env.API_HOST || 'localhost'}:3000`;
+let apiHost = 'http://' + (process.env.API_HOST || 'localhost') + ':3000'
 
 module.exports = {
+  createAccount: (email, password) => {
+    let data = {
+      auth: {
+        email: email,
+        password: password,
+      },
+      headers: {}
+    }
+
+    return axios.post(apiHost + '/api/users/create', data)
+      .then((response) => response.data.jwt)
+      .catch((error) => undefined)
+  },
+
   authenticateUser: (email, password) => {
     let data = {
       auth: {
         email: email,
-        password: password
-      }
+        password: password,
+      },
+      headers: {}
     }
     return axios.post(apiHost + '/api/user/token', data)
       .then((response) => response.data.jwt)

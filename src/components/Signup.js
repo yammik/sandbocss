@@ -60,11 +60,11 @@ class AuthSignIn extends Component {
     return {
       email: {
         value: '',
-        error: 'Email is required.'
+        error: 'e👏mail👏'
       },
       password: {
         value: '',
-        error: 'Password is required.'
+        error: 'pass👏word👏'
       },
       submit: {
         error: ''
@@ -97,11 +97,11 @@ class AuthSignIn extends Component {
 
   setEmail(event) {
     let newVal = event.target.value || ''
-    let errorMsg = newVal.length === 0 ? 'Email is required.' : ''
+    let errorMessage = newVal.length === 0 ? 'Email is required.' : ''
     this.setState({
       email: {
         value: newVal,
-        error: errorMsg
+        error: errorMessage
       },
       submit: {
         error: ''
@@ -111,24 +111,24 @@ class AuthSignIn extends Component {
 
   setPassword(event) {
     let newVal = event.target.value || ''
-    let errorMsg = newVal.length === 0 ? 'Password is required.' : ''
+    let errorMessage = newVal.length === 0 ? 'Password is required.' : ''
     this.setState({
       password: {
         value: newVal,
-        error: errorMsg,
+        error: errorMessage
       },
       submit: {
-        error: '',
+        error: ''
       }
     })
   }
 
   handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
     this.setState({
       formSubmitted: true,
       submit: {
-        error: '',
+        error: ''
       }
     })
 
@@ -136,15 +136,39 @@ class AuthSignIn extends Component {
       return false
     }
 
-    Api.authenticateUser(this.state.email.value, this.state.password.value).then(jwt => {
+    // try
+    // fetch('http://localhost:3000/api/user/token', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     email: this.state.email.value,
+    //     password: this.state.password.value,
+    //   })
+    // })
+    // .then(jwt => {
+    //   if (jwt) {
+    //     this.props.propagateSignIn(jwt, this.props.history)
+    //   }
+    //   else {
+    //     this.setState({
+    //       submit: {
+    //         error: 'Sorry, we could not log you in with the credentials provided. Please try again.'
+    //       }
+    //     })
+    //   }
+    // }
+
+    Api.createAccount(this.state.email.value, this.state.password.value).then(jwt => {
       if (jwt) {
-        debugger
         this.props.propagateSignIn(jwt, this.props.history)
       }
       else {
         this.setState({
           submit: {
-            error: 'Sorry, we could not log you in with the credentials provided. Please try again.'
+            error: 'bad creds 💁 try again'
           }
         })
       }

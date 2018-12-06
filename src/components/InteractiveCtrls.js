@@ -14,8 +14,7 @@ class InteractiveCtrls extends Component {
     this.setState({
       color: color.rgb,
     });
-
-    this.props.setColor(Object.values(color));
+    this.props.setColor(Object.values(color.rgb));
   };
 
   render() {

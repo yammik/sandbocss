@@ -100,7 +100,7 @@ class TokenAuth extends Component {
   getPages() {
     Api.getPages().then(response => {
       this.setState({
-        pages: response
+        pages: response,
       })
     })
   }
@@ -115,7 +115,7 @@ class TokenAuth extends Component {
         this.setState({
           email: response.email,
           user_id: response.id,
-          jwt: jwt
+          jwt: jwt,
         })
         if (history) history.push('/')
       }
@@ -125,7 +125,7 @@ class TokenAuth extends Component {
         this.setState({
           email: undefined,
           user_id: undefined,
-          jwt: undefined
+          jwt: undefined,
         })
       }
     })

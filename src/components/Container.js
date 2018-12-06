@@ -37,12 +37,12 @@ class Container extends Component {
   keyDownResize = (e) => {
     switch (e.keyCode) {
       case 38:
-        console.log('yUp');
-        this.resize('yUp');
-        break;
-      case 40:
         console.log('yDown');
         this.resize('yDown');
+        break;
+      case 40:
+        console.log('yUp');
+        this.resize('yUp');
         break;
       case 37:
         console.log('xDown');
@@ -268,16 +268,16 @@ class Container extends Component {
       let newX = div.x, newY = div.y;
       switch (direction) {
         case 'right':
-          newX = div.x+50;
+          newX = div.x+10;
           break;
         case 'left':
-          newX = div.x-50;
+          newX = div.x-10;
           break;
         case 'up':
-          newY = div.y-50;
+          newY = div.y-10;
           break;
         case 'down':
-          newY = div.y+50;
+          newY = div.y+10;
           break;
         default:
           break;

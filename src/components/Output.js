@@ -38,7 +38,6 @@ class Output extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.divs.length && prevProps.divs !== this.props.divs) {
-      console.log('setting copied state to false');
       this.setState({
         copied: false,
       })
@@ -90,22 +89,10 @@ class Output extends Component {
     )
   }
 
-  getUniqueStyles = (divs) => {
-    const styles = divs.map(div => (
-      { [div.className.replace('resizable ','')]: div.style }
-    ))
-    const classList = styles.map(style => Object.keys(style)[0]).filter((v, i, arr) => arr.indexOf(v) === i);
-    const stylesUnique = classList.map(clss => (
-      styles.find(style => Object.keys(style)[0] === clss)
-    ))
-    return stylesUnique;
-  }
-
   render() {
-    const allDivs = this.props.divs.reduce((memo, div) => {
-      return memo.concat(div.children).concat(div);
-    },[]);
-    const stylesUnique = this.getUniqueStyles(allDivs);
+    const { flattenDivsArray, getUniqueStyles, divs } = this.props;
+    const allDivs = flattenDivsArray(divs);
+    const stylesUnique = getUniqueStyles(allDivs);
 
     const cssCode = this.props.mode === 'classic' ?
       stylesUnique.map(style => this.renderCodeWithCleanStyleObj(style))

@@ -13,9 +13,9 @@ class Container extends Component {
       currentElement: null,
       sandboxWidth: 0,
       sandboxHeight: 0,
+      resizing: false,
     };
 
-    this.addDiv = this.addDiv.bind(this)
   }
 
   setSandboxDimensions = (width, height) => {
@@ -29,22 +29,51 @@ class Container extends Component {
     this.setState({
       currentElement: divKey,
     }, () => {
-      document.addEventListener('keyDown', this.checkKeyDown);
+      document.addEventListener('keydown', this.handleKeydown);
+      document.addEventListener('keyup', this.handleKeyup);
     })
   }
 
-  checkKeyDown = (e) => {
+  keyDownResize = (e) => {
     switch (e.keyCode) {
-      case '38':
+      case 38:
+        console.log('yUp');
+        this.resize('yUp');
+        break;
+      case 40:
+        console.log('yDown');
+        this.resize('yDown');
+        break;
+      case 37:
+        console.log('xDown');
+        this.resize('xDown');
+        break;
+      case 39:
+        console.log('xUp');
+        this.resize('xUp');
+        break;
+      default:
+        break;
+    }
+  }
+
+  keyDownMove = (e) => {
+    console.log('moveeeee', e.keyCode);
+    switch (e.keyCode) {
+      case 38:
+        console.log('UP');
         this.move('up');
         break;
-      case '40':
+      case 40:
+        console.log('DOWN');
         this.move('down');
         break;
-      case '37':
+      case 37:
+        console.log('LEFT');
         this.move('left');
         break;
-      case '39':
+      case 39:
+        console.log('RIGHT');
         this.move('right');
         break;
       default:
@@ -52,11 +81,36 @@ class Container extends Component {
     }
   }
 
+  handleKeydown = (e) => {
+    if (e.keyCode === 16) {
+      this.setState({
+        resizing: true,
+      }, () => {
+        document.addEventListener('keydown', this.keyDownResize);
+      })
+    }
+    if (!this.state.resizing) {
+      this.keyDownMove(e);
+    }
+  }
+
+  handleKeyup = (e) => {
+    console.log('keyup');
+    if (e.keyCode === 16) {
+      document.removeEventListener('keydown', this.keyDownResize);
+      this.setState({
+        resizing: false,
+      }, () => {
+        document.addEventListener('keydown', this.keyDownMove);
+      })
+    }
+  }
+
   unsetCurrent = () => {
     this.setState({
       currentElement: null,
     }, () => {
-      document.removeEventListener('keyDown', this.checkKeyDown);
+      document.removeEventListener('keydown', this.handleKeydown);
     })
   }
 
@@ -72,6 +126,7 @@ class Container extends Component {
     return this.state.divs.find(dv => dv.key === key) || matches[0];
   }
 
+// because div.x, div.y are independently managed from the physical position of the div, need to update a second time upon changing position via CSS by grabbing physical location on the DOM
   updatePositionDOM = (divKey) => {
     this.setState(prevState => {
         const newX = document.getElementById(divKey).getBoundingClientRect().left-document.getElementById('sandbox').getBoundingClientRect().left;
@@ -121,7 +176,37 @@ class Container extends Component {
     })
   }
 
+// flattens the divs and children. won't need if divs data are normalized
+  flattenDivsArray = (divs) => {
+    return divs.reduce((memo, div) => {
+      return memo.concat(div.children).concat(div);
+    },[]);
+  }
+
+// reduce array based on className; if there are divs with the same className but different styles, only the first one is counted
+  getUniqueStyles = (divs) => {
+    const styles = divs.map(div => (
+      { [div.className.replace('resizable ','')]: div.style }
+    )) // only consider the className the user submitted
+
+    const classList = styles.map(style => Object.keys(style)[0]).filter((v, i, arr) => arr.indexOf(v) === i);
+    const stylesUnique = classList.map(clss => (
+      styles.find(style => Object.keys(style)[0] === clss)
+    ))
+
+    return stylesUnique;
+  }
+
+// grab all classNames from flattened divs
+  allClassNames = () => {
+    const divs = this.flattenDivsArray(this.state.divs);
+    const uniqueStyles = this.getUniqueStyles(divs);
+    //
+  }
+
   addDiv = (name) => {
+    this.allClassNames();
+
     const newDiv = {
       key: v4(),
       className: `resizable ${name}`,
@@ -151,11 +236,14 @@ class Container extends Component {
             style: div.style,
           }
         }),
+      }, () => {
+        this.setCurrent(newDiv.key)
       })
     } else {
       this.setState({
         divs: this.state.divs.concat(newDiv),
-        currentElement: newDiv.key,
+      }, () => {
+        this.setCurrent(newDiv.key)
       })
     }
   }
@@ -172,11 +260,10 @@ class Container extends Component {
 
   // directional movements
   move = (direction) => {
+    console.log('moveeeeee')
     const div = this.findCurrent();
     if (div) {
       const newClass = div.className.replace(/ center| left| right/,'');
-      console.log('moved');
-      console.log(newClass);
 
       let newX = div.x, newY = div.y;
       switch (direction) {
@@ -309,6 +396,8 @@ class Container extends Component {
         <Output
           mode={mode}
           divs={divs}
+          flattenDivsArray={this.flattenDivsArray}
+          getUniqueStyles={this.getUniqueStyles}
           sandboxWidth={this.state.sandboxWidth}
           sandboxHeight={this.state.sandboxHeight} />
       </div>

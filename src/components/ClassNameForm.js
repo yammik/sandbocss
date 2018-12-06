@@ -23,17 +23,27 @@ class ClassNameForm extends Component {
     e.target.reset();
   }
 
+  handleDelSubmit = (e) => {
+    e.preventDefault();
+    this.props.removeDiv();
+  }
+
   render() {
     return (
+      <>
       <form onSubmit={this.handleSubmit} className="classNameForm">
         class name:
         <div>
           <input onChange={this.handleChange} className="classNameInput"></input>
           <br></br>
-          <input className="classNameSubmit" type="submit" value="➕ div"></input>
+          <input className="submitButton" type="submit" value="➕"></input>
 
+          <input className="submitButton delButton" type="submit" onClick={this.handleDelSubmit} value="🚮"></input>
         </div>
       </form>
+      <form>
+      </form>
+      </>
     )
   }
 }

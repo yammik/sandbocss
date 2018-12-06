@@ -28,12 +28,35 @@ class Container extends Component {
   setCurrent = divKey => {
     this.setState({
       currentElement: divKey,
+    }, () => {
+      document.addEventListener('keyDown', this.checkKeyDown);
     })
+  }
+
+  checkKeyDown = (e) => {
+    switch (e.keyCode) {
+      case '38':
+        this.move('up');
+        break;
+      case '40':
+        this.move('down');
+        break;
+      case '37':
+        this.move('left');
+        break;
+      case '39':
+        this.move('right');
+        break;
+      default:
+        break;
+    }
   }
 
   unsetCurrent = () => {
     this.setState({
       currentElement: null,
+    }, () => {
+      document.removeEventListener('keyDown', this.checkKeyDown);
     })
   }
 
@@ -235,6 +258,7 @@ class Container extends Component {
   removeDiv = () => {
     this.setState(prevState => {
       return {
+        currentElement: null,
         divs: prevState.divs
           .filter(div => div.key !== prevState.currentElement)
           .map(div => {

@@ -18,8 +18,10 @@ class Controls extends Component {
   render() {
     return (
       <div id="controls">
-        <ClassNameForm addDiv={this.props.addDiv} />
-        <button class="delbtn" onClick={this.props.removeDiv}>🚮 div</button>
+        <ClassNameForm
+          addDiv={this.props.addDiv}
+          removeDiv={this.props.removeDiv}
+         />
         <Properties addStyle={this.props.addStyle} />
       </div>
     )

@@ -1,5 +1,7 @@
 * {
   font-size: 18px;
+  font-family: 'Cutive Mono', monospace;
+  
 }
 
 html, body {
@@ -164,14 +166,14 @@ input {
   color: white;
 }
 
-.classNameSubmit {
+.submitButton {
   background: transparent;
   color: white;
   border: none;
   font-size: 0.8em;
   border: 1px solid #fff;
   padding: 4px;
-  margin-top: 10px;
+  margin: 10px;
 }
 
 .resizable {

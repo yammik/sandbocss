@@ -25,6 +25,8 @@ class Container extends Component {
     })
   }
 
+// ~~~~~~~~~~~ BEGIN select div ~~~~~~~~~~~
+
   setCurrent = divKey => {
     this.setState({
       currentElement: divKey,
@@ -34,6 +36,34 @@ class Container extends Component {
     })
   }
 
+  unsetCurrent = () => {
+    this.setState({
+      currentElement: null,
+    }, () => {
+      document.removeEventListener('keydown', this.handleKeydown);
+    })
+  }
+
+// ~~~~~~~~~~~ BEGIN select div ~~~~~~~~~~~
+
+
+
+// ~~~~~~~~~~~ begin MOVE & RESIZE ON KEYDOWN ~~~~~~~~~~~
+
+  handleKeydown = (e) => {
+    if (e.keyCode === 16) {
+      this.setState({
+        resizing: true,
+      }, () => {
+        if (this.props.mode === 'interactive') {
+          document.addEventListener('keydown', this.keyDownResize);
+        }
+      })
+    }
+    if (!this.state.resizing) {
+      this.keyDownMove(e);
+    }
+  }
   keyDownResize = (e) => {
     switch (e.keyCode) {
       case 38:
@@ -81,19 +111,6 @@ class Container extends Component {
     }
   }
 
-  handleKeydown = (e) => {
-    if (e.keyCode === 16) {
-      this.setState({
-        resizing: true,
-      }, () => {
-        document.addEventListener('keydown', this.keyDownResize);
-      })
-    }
-    if (!this.state.resizing) {
-      this.keyDownMove(e);
-    }
-  }
-
   handleKeyup = (e) => {
     console.log('keyup');
     if (e.keyCode === 16) {
@@ -106,17 +123,11 @@ class Container extends Component {
     }
   }
 
-  unsetCurrent = () => {
-    this.setState({
-      currentElement: null,
-    }, () => {
-      document.removeEventListener('keydown', this.handleKeydown);
-    })
-  }
+// ~~~~~~~~~~~ end MOVE & RESIZE ON KEYDOWN ~~~~~~~~~~~
 
-  findCurrent = () => {
-    return this.findDiv(this.state.currentElement);
-  }
+
+
+// ~~~~~~~~~~~ BEGIN grab div ~~~~~~~~~~~
 
   findDiv = key => {
     let matches = [];
@@ -126,8 +137,68 @@ class Container extends Component {
     return this.state.divs.find(dv => dv.key === key) || matches[0];
   }
 
-// because div.x, div.y are independently managed from the physical position of the div, need to update a second time upon changing position via CSS by grabbing physical location on the DOM
+  findCurrent = () => {
+    return this.findDiv(this.state.currentElement);
+  }
+
+// ~~~~~~~~~~~ END grab div ~~~~~~~~~~~
+
+
+
+// ~~~~~~~~~~~ BEGIN modify div data ~~~~~~~~~~
+
+  addDiv = (name) => {
+    const classNames = this.allClassNames();
+    const styles = this.getUniqueStyles(this.flattenDivsArray(this.state.divs));
+
+    const newDiv = {
+      key: v4(),
+      className: `resizable ${name}`,
+      width: 100,
+      height: 100,
+      x: 0,
+      y: 0,
+      children: [],
+      aligned: false,
+      style: {},
+    }
+    const formattedClassName = this.formatClassName(newDiv.className);
+    if (classNames.includes(formattedClassName)) {
+      newDiv.style = styles.find(x => Object.keys(x)[0] === formattedClassName)[formattedClassName];
+    }
+    // debugger
+    if (this.state.currentElement) {
+      this.setState({
+        divs: this.state.divs.map(div => {
+          if (div.key !== this.state.currentElement) {
+            return div;
+          }
+          return {
+            key: this.state.currentElement,
+            className: div.className,
+            width: div.width,
+            height: div.height,
+            x: div.x,
+            y: div.y,
+            children: div.children.concat(newDiv),
+            aligned: div.aligned,
+            style: div.style,
+          }
+        }),
+      }, () => {
+        this.setCurrent(newDiv.key)
+      })
+    } else {
+      this.setState({
+        divs: this.state.divs.concat(newDiv),
+      }, () => {
+        this.setCurrent(newDiv.key)
+      })
+    }
+  }
+
   updatePositionDOM = (divKey) => {
+    // because div.x, div.y are independently managed from the physical position of the div, need to update a second time upon changing position via CSS by grabbing physical location on the DOM
     this.setState(prevState => {
         const newX = document.getElementById(divKey).getBoundingClientRect().left-document.getElementById('sandbox').getBoundingClientRect().left;
         const newY = document.getElementById(divKey).getBoundingClientRect().top-document.getElementById('sandbox').getBoundingClientRect().top;
@@ -176,18 +247,24 @@ class Container extends Component {
     })
   }
 
-// flattens the divs and children. won't need if divs data are normalized
   flattenDivsArray = (divs) => {
+    // flattens the divs and children. won't need if divs data are normalized
     return divs.reduce((memo, div) => {
       return memo.concat(div.children).concat(div);
     },[]);
   }
 
-// reduce array based on className; if there are divs with the same className but different styles, only the first one is counted
+  formatClassName = (name) => {
+    return name.replace('resizable ','');
+  }
+
   getUniqueStyles = (divs) => {
-    const styles = divs.map(div => (
-      { [div.className.replace('resizable ','')]: div.style }
-    )) // only consider the className the user submitted
+    // reduce array based on className; if there are divs with the same className but different styles, only the first one is counted
+    // divs should be flattened!!!!!!!
+    const styles = divs.map(div => {
+      const formattedClassName = this.formatClassName(div.className);
+      return { [formattedClassName]: div.style }
+    }) // only consider the className the user submitted
 
     const classList = styles.map(style => Object.keys(style)[0]).filter((v, i, arr) => arr.indexOf(v) === i);
     const stylesUnique = classList.map(clss => (
@@ -197,58 +274,13 @@ class Container extends Component {
     return stylesUnique;
   }
 
-// grab all classNames from flattened divs
   allClassNames = () => {
+    // grab all classNames from flattened divs
     const divs = this.flattenDivsArray(this.state.divs);
     const uniqueStyles = this.getUniqueStyles(divs);
-    //
+    return uniqueStyles.map(x => Object.keys(x)[0]);
   }
 
-  addDiv = (name) => {
-    this.allClassNames();
-
-    const newDiv = {
-      key: v4(),
-      className: `resizable ${name}`,
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 0,
-      children: [],
-      aligned: false,
-      style: {},
-    }
-    if (this.state.currentElement) {
-      this.setState({
-        divs: this.state.divs.map(div => {
-          if (div.key !== this.state.currentElement) {
-            return div;
-          }
-          return {
-            key: this.state.currentElement,
-            className: div.className,
-            width: div.width,
-            height: div.height,
-            x: div.x,
-            y: div.y,
-            children: div.children.concat(newDiv),
-            aligned: div.aligned,
-            style: div.style,
-          }
-        }),
-      }, () => {
-        this.setCurrent(newDiv.key)
-      })
-    } else {
-      this.setState({
-        divs: this.state.divs.concat(newDiv),
-      }, () => {
-        this.setCurrent(newDiv.key)
-      })
-    }
-  }
-
-  // align div
   align = (direction) => {
     const div = this.findCurrent();
 
@@ -258,7 +290,6 @@ class Container extends Component {
     }
   }
 
-  // directional movements
   move = (direction) => {
     console.log('moveeeeee')
     const div = this.findCurrent();
@@ -286,7 +317,6 @@ class Container extends Component {
     }
   }
 
-  // size change controls
   resize = (param) => {
     const div = this.findCurrent();
     if (div) {
@@ -363,6 +393,11 @@ class Container extends Component {
     }
     this.addStyle(style);
   }
+
+  // ~~~~~~~~~~~ END modify div data ~~~~~~~~~~
+
+
+
 
   render() {
     const { divs, currentElement } = this.state;

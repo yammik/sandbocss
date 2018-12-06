@@ -20,38 +20,7 @@ class TokenAuth extends Component {
   render() {
     return (
       <Router>
-        <div>
-
-          <AppHeader appState={this.state} />
-
           <Route exact path="/" component={Main} />
-
-          <Route
-            exact path='/page/:id'
-            render={(routeProps) => (
-              <Page {...routeProps} appState={this.state} />
-            )}
-          />
-
-          {!this.state.jwt &&
-            <Route
-              exact path="/sign-in"
-              render={(routeProps) => (
-                <AuthSignIn {...routeProps} propagateSignIn={this.propagateSignIn} />
-              )}
-            />
-          }
-
-          {this.state.jwt &&
-            <Route
-              exact path="/sign-out"
-              render={(routeProps) => (
-                <AuthSignOut {...routeProps} propagateSignOut={this.propagateSignOut} />
-              )}
-            />
-          }
-
-        </div>
       </Router>
     )
   }

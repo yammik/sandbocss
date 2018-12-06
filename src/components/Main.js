@@ -17,11 +17,10 @@ class Main extends Component {
   render() {
     const { mode } = this.state;
     return (
-        <>
+      <>
         <Navbar />
         { !mode ? <ModeSelect selectMode={this.selectMode} /> : <Container mode={mode} /> }
-
-        </>
+      </>
     );
   }
 }

@@ -9,7 +9,6 @@ class DropMenu extends Component {
   }
 
   handleClick = (e) => {
-    console.log(e.target.name);
     if (this.props.specific) {
       this.props.setName(this.props.specific)
     }

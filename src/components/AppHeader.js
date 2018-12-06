@@ -8,28 +8,11 @@ class AppHeader extends Component {
     return (
       <Navbar inverse collapseOnSelect>
           <Nav>
-            <LinkContainer exact to="/">
+            <LinkContainer exact to="/" onClick={() => window.location.reload()}>
               <NavItem eventKey={1}>
                 sandboCSS
               </NavItem>
             </LinkContainer>
-          </Nav>
-          <Nav pullRight>
-            {!this.props.appState.jwt &&
-              <LinkContainer exact to="/sign-in">
-                <NavItem eventKey={3}>
-                  sign in
-                </NavItem>
-              </LinkContainer>
-            }
-
-            {this.props.appState.jwt &&
-              <LinkContainer exact to="/sign-out">
-                <NavItem eventKey={4}>
-                  sign out
-                </NavItem>
-              </LinkContainer>
-            }
           </Nav>
       </Navbar>
     )

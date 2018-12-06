@@ -30,7 +30,7 @@ class ClassNameForm extends Component {
         <div>
           <input onChange={this.handleChange} className="classNameInput"></input>
           <br></br>
-          <input className="classNameSubmit" type="submit" value="make a div"></input>
+          <input className="classNameSubmit" type="submit" value="➕ div"></input>
 
         </div>
       </form>

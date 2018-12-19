@@ -7,7 +7,7 @@ class InteractiveCtrls extends Component {
     super()
     this.state = {
       color: '',
-      windowWidth: 0,
+      windowWidth: 1400,
     }
   }
 
@@ -37,7 +37,10 @@ class InteractiveCtrls extends Component {
 
     return (
       <div id="controls">
-        <ClassNameForm addDiv={this.props.addDiv} />
+        <ClassNameForm
+          addDiv={this.props.addDiv}
+          removeDiv={this.props.removeDiv}
+         />
         <button onClick={() => align('left')}>
           L
         </button>

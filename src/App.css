@@ -88,6 +88,7 @@ a:hover {
   margin: auto;
   padding-top: 30px;
   opacity: 1;
+  cursor: crosshair;
 }
 
 .chrome-picker {
@@ -275,15 +276,6 @@ input:focus {
   margin-right: auto;
 }
 
-.propertiesOption>button {
-  font-size: 0.7em;
-}
-
-.options>div>button {
-  border: none;
-  font-size: 0.7em;
-}
-
 .options>span>input {
   width: 40px;
   margin-left: 5px;
@@ -302,6 +294,16 @@ button {
   outline: none;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
+  cursor: crosshair;
+}
+
+.propertiesOption>button {
+  font-size: 0.7em;
+}
+
+.options>div>button {
+  border: none;
+  font-size: 0.7em;
 }
 
 button:hover {

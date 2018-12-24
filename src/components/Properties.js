@@ -173,8 +173,10 @@ class Properties extends Component {
         <ul>
           {Object.keys(properties).map(propKey =>
             <li key={propKey}>
-              {propKey}
-              <span>{this.makeAs(properties, propKey)}</span>
+              <span className="letter">
+                {propKey}
+              </span>
+              <span className="names">{this.makeAs(properties, propKey)}</span>
 
               { this.state.propNameToChange[0] === propKey ? this.openForm() : null }
 

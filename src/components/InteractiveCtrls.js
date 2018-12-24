@@ -43,15 +43,18 @@ class InteractiveCtrls extends Component {
           addDiv={this.props.addDiv}
           removeDiv={this.props.removeDiv}
          />
-        <button onClick={() => align('left')}>
-          L
-        </button>
-        <button onClick={() => align('center')}>
-          C
-        </button>
-        <button onClick={() => align('right')}>
-          R
-        </button>
+        <div id="alignBtns">
+          <button onClick={() => align('left')}>
+            L
+          </button>
+          <button onClick={() => align('center')}>
+            C
+          </button>
+          <button onClick={() => align('right')}>
+            R
+          </button>
+        </div>
+
         <div id="directionPad">
           <button onClick={() => move('up')}>
             <span role="img" aria-label="up">🔼</span>

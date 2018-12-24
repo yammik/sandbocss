@@ -107,9 +107,11 @@ class Output extends Component {
 
     return (
       <div id="output">
-        <pre>
-          {cssCode}
-      </pre>
+        <div id="code">
+          <pre>
+            {cssCode}
+          </pre>
+        </div>
       <CopyToClipboard text={cssCodeInStr}
         onCopy={() => this.setState({copied: true})}>
         <span className="copyLink">{this.state.copied ? 'copied!' : 'copy CSS code'}</span>

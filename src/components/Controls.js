@@ -13,6 +13,7 @@ class Controls extends Component {
         'imageQualityForDataUrl': 1.0
       }
     );
+    debugger
   }
 
   render() {

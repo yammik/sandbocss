@@ -19,28 +19,23 @@ const styleEmph = {
 class Sandbox extends Component {
   state = {
     isDragging: false,
-    xi: 0,
-    yi: 0,
   }
 
   componentDidMount() {
     const w = document.getElementById('sandbox').offsetWidth;
     const h = document.getElementById('sandbox').offsetHeight;
+    // need this in case we need to calculate percentage of width or height of each div
     this.props.setSandboxDimensions(w, h);
 
-    // MAKE THIS WORK
-    document.getElementById('controls').style.height = `${h}px;`
   }
 
   divMaker = (style) => {
+    // creates a new component with user-designated style.
+    // Essentially a new component is rendered everytime a div's style is changed and appState is updated
     const Div = styled.div`
       ${style}
     `;
     return Div;
-  }
-
-  setCurrentDiv = e => {
-    e.stopPropagation();
   }
 
   setInitialCoords = e => {
@@ -52,11 +47,12 @@ class Sandbox extends Component {
   }
 
   handleClick = e => {
+    // stopPropagation to prevent parent div from getting selected when child is clicked
     e.stopPropagation();
-    console.log(this.state.isDragging);
-    console.log(this.props.currentElement);
+
+    // need to know if div was being dragged or if it is a single click,
+    // because drag between clicks still registers as click every. single. time. the. mouse. moves.
     if (!this.state.isDragging && this.props.currentElement) {
-      console.log('unsetting current div');
       this.props.unsetCurrent();
     } else {
       this.props.setCurrent(e.target.id);
@@ -64,10 +60,8 @@ class Sandbox extends Component {
   }
 
   dragSet = tf => {
-    this.setState(prevState => {
-      return {
-        isDragging: tf,
-      }
+    this.setState({
+      isDragging: tf,
     })
   }
 

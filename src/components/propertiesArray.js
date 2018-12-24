@@ -1,3 +1,11 @@
+// this is the list of all CSS properties, gropued by the first letter (which probably isn't that practical, might change later)
+// for each obj, name is the name of the property
+// values are either a string or array, depending on if the options have further specification
+  // e.g. 'border' property has 'width style color' because qualities of a border can be individually specified as following:
+    // border-width | border-style | border-color
+// if value is string, each need to have input and be independently managed
+
+
 const properties = {
     a: [
       {

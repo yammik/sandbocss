@@ -73,6 +73,10 @@ a:hover {
   color: rgb(91, 105, 135)
 }
 
+code {
+  font-size: 0.6em;
+}
+
 #banner {
   height: 60px;
   position: relative;

@@ -5,6 +5,8 @@ import Output from "./Output";
 import { v4 } from 'uuid';
 import Controls from "./Controls"
 
+// the top level of app
+
 class Container extends Component {
   constructor(props) {
     super(props);
@@ -153,7 +155,7 @@ class Container extends Component {
 
     const newDiv = {
       key: v4(),
-      className: `resizable ${name}`,
+      className: `${name}`,
       width: 100,
       height: 100,
       x: 0,

@@ -32,7 +32,7 @@ class Output extends Component {
 
   defaultProp = div => {
     return (
-      `  left: ${div.x}px;\n  top: ${div.y}px;\n  }`
+      `  left: ${div.x}px;\n  top: ${div.y}px;\n  `
     )
   }
 

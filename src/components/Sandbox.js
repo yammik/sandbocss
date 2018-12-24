@@ -10,12 +10,6 @@ const style = {
   background: "rgba(100,100,100,0.6)"
 };
 
-const styleEmph = {
-  alignItems: "center",
-  justifyContent: "center",
-  outline: "solid 2px rgba(48,69,109,0.7)",
-}
-
 class Sandbox extends Component {
   state = {
     isDragging: false,
@@ -38,20 +32,13 @@ class Sandbox extends Component {
     return Div;
   }
 
-  setInitialCoords = e => {
-    this.setState({
-      xi: e.clientX,
-      yi: e.clientY,
-    }, () => {
-    })
-  }
-
   handleClick = e => {
     // stopPropagation to prevent parent div from getting selected when child is clicked
     e.stopPropagation();
 
-    // need to know if div was being dragged or if it is a single click,
+    // need to know if div was being dragged or if it is a single click, ...
     // because drag between clicks still registers as click every. single. time. the. mouse. moves.
+    // if being dragged, the app knows not to not count further mouse downs as a mouse down until this.state.isDragging is set to false
     if (!this.state.isDragging && this.props.currentElement) {
       this.props.unsetCurrent();
     } else {
@@ -60,19 +47,22 @@ class Sandbox extends Component {
   }
 
   dragSet = tf => {
+    // for distinguising dragging when in interactive mode
     this.setState({
       isDragging: tf,
     })
   }
 
-
   renderInteractiveDiv = (div, z=0) => {
+    // render divs using this if in interactive mode
     let divStyle;
     if (div.style['background-color']) {
+      // combines the preexisting div.style with background color style, instead of overwriting
       divStyle = Object.assign({}, style, {
         ['background-color']: div.style['background-color']
       })
     }
+    // outline with red if div is currently selected
     if (this.props.currentElement === div.key) {
       divStyle = Object.assign({}, divStyle, {outline: 'solid 2px red'})
     }
@@ -114,51 +104,14 @@ class Sandbox extends Component {
     </Rnd>
   }
 
-  convertToCamel = (styleObj) => {
-    var camelStyle = {};
-    for (const key in styleObj) {
-    const camelKey = key.replace(/-[a-z]/, l => l.toUpperCase()).replace('-','');
-    camelStyle[camelKey] = styleObj[key]
-    }
-    return camelStyle;
-  }
-
-  renderDiv = (div, z=0) => {
-
-    const camelStyle = this.convertToCamel(div.style)
-
-    const emph = Object.assign({}, camelStyle, styleEmph);
-    const { currentElement, setCurrent } = this.props;
-    return <Rnd
-      key={div.key}
-      className={div.className}
-      id={div.key}
-      style={div.key === currentElement ? emph : camelStyle}
-      onMouseDown={this.setCurrentDiv}
-      bounds='parent'
-      onClick={this.handleClick}
-      onResize={(e, d, ref, delta, pos) => {
-        e.stopPropagation();
-        setCurrent(div.key);
-      }}
-      onDrag={(e, d) => {
-        e.stopPropagation();
-        this.dragSet(true);
-      }}
-    >
-        {div.className.replace(/resizable| center| left| right/, '')}
-      {div.children.map(div =>
-        this.renderDiv(div, camelStyle, z+1)
-      )}
-    </Rnd>
-  }
-
   renderStyledDiv = (div) => {
+    // render divs using this in classic mode
     const outlines = Object.keys(div.style).filter(cssProperty => cssProperty.includes('outline'));
     const divOutline = outlines.map(outlineProp => {
       return { [outlineProp]: div.style[outlineProp] }
     })
     let outline = divOutline || `outline: solid 1px black`;
+    // outline with red if div is currently selected
     if (this.props.currentElement === div.key) {
       outline = `outline: solid 2px red`
     }
@@ -169,13 +122,13 @@ class Sandbox extends Component {
 
     return <Div
       key={div.key}
-      className={div.className.replace(/resizable| center| left| right/, '')}
+      className={div.className}
       id={div.key}
       onMouseDown={this.setCurrentDiv}
       bounds='parent'
       onClick={this.handleClick}
       >
-        {div.className.replace(/resizable| center| left| right/, '')}
+        {div.className}
         {div.children.map(div =>
           this.renderStyledDiv(div)
         )}

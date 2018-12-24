@@ -12,29 +12,13 @@ class Output extends Component {
     return className.replace(/resizable | center| left| right/, '');
   }
 
-  lefted = () => {
-    return (
-      '  position: absolute;\n  left: 0;\n  right: auto;'
-    )
-  }
+  lefted = () => '  position: absolute;\n  left: 0;\n  right: auto;'
 
-  righted = () => {
-    return (
-      '  position: absolute;\n  left: auto;\n  right: 0;'
-    )
-  }
+  righted = () => '  position: absolute;\n  left: auto;\n  right: 0;'
 
-  centered = () => {
-    return (
-      '  position: absolute;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;'
-    )
-  }
+  centered = () => '  position: absolute;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;'
 
-  defaultProp = div => {
-    return (
-      `  left: ${Math.floor(div.x)}px;\n  top: ${Math.floor(div.y)}px;\n  `
-    )
-  }
+  defaultProp = div => `  left: ${Math.floor(div.x)}px;\n  top: ${Math.floor(div.y)}px;\n  `
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.divs.length && prevProps.divs !== this.props.divs) {
@@ -103,7 +87,9 @@ class Output extends Component {
       : this.props.divs.map(div => this.renderCode(div))
 
     // the code that would be copied to clipboard
-    const cssCodeInStr = cssCode.length ? cssCode.map(code => code.props.children.filter(x => typeof x === 'string').join('')).join('\n') : '';
+    // should make a helper function just for formatting the str
+    const cssCodeInStr = cssCode.length ? cssCode
+      .map(code => code.props.children.filter(x => typeof x === 'string').join('').replace(/{/g, '{\n')).join('\n\n') : '';
 
     return (
       <div id="output">

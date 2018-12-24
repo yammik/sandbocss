@@ -14,6 +14,7 @@ class ClassNameForm extends Component {
     })
   }
 
+  // where new divs are made
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.addDiv(this.state.className);
@@ -23,6 +24,7 @@ class ClassNameForm extends Component {
     e.target.reset();
   }
 
+  // delete currently selected div
   handleDelSubmit = (e) => {
     e.preventDefault();
     this.props.removeDiv();
@@ -30,7 +32,6 @@ class ClassNameForm extends Component {
 
   render() {
     return (
-      <>
       <form onSubmit={this.handleSubmit} className="classNameForm">
         class name:
         <div>
@@ -41,9 +42,6 @@ class ClassNameForm extends Component {
           <input className="submitButton delButton" type="submit" onClick={this.handleDelSubmit} value="🚮"></input>
         </div>
       </form>
-      <form>
-      </form>
-      </>
     )
   }
 }

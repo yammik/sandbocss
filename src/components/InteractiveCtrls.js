@@ -15,14 +15,13 @@ class InteractiveCtrls extends Component {
     this.setState({
       color: color.rgb,
     });
-    // debugger
     this.props.addStyle({
       'background-color': `rgba(${Object.values(color.rgb).join(',')})`
     })
-    // this.props.setColor(Object.values(color.rgb));
   };
 
   componentDidMount() {
+    // some components will render depending on window size
     window.addEventListener('resize', e => {
       this.setState({
         windowWidth: window.innerWidth,
@@ -31,17 +30,13 @@ class InteractiveCtrls extends Component {
   }
 
   render() {
-    const {
-      align,
-      move,
-      resize,
-    } = this.props;
+    const { align, move, resize, addDiv, removeDiv } = this.props;
 
     return (
       <div id="controls">
         <ClassNameForm
-          addDiv={this.props.addDiv}
-          removeDiv={this.props.removeDiv}
+          addDiv={addDiv}
+          removeDiv={removeDiv}
          />
         <div id="alignBtns">
           <button onClick={() => align('left')}>

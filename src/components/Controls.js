@@ -9,7 +9,7 @@ class Controls extends Component {
     // !!!! COMING SOON !!!! in v2
     // allow screen capture to go with the generated CSS code
     // so x below works, but not sure what to do with it yet
-    const x = htmlScreenCaptureJs.capture(
+    const screenCapture = htmlScreenCaptureJs.capture(
       htmlScreenCaptureJs.OutputType.OBJECT,
       window.document,
       {
@@ -17,6 +17,7 @@ class Controls extends Component {
         'imageQualityForDataUrl': 1.0
       }
     );
+    return screenCapture
   }
 
   render() {

@@ -39,24 +39,6 @@ label {
   font-family: 'Montserrat', sans-serif;
 }
 
-input#authEmail {
-  width: 190px;
-  transition: width 0.3s ease;
-}
-
-input#authEmail:focus {
-  width: 250px;
-}
-
-input#authPassword {
-  width: 190px;
-  transition: width 0.3s ease;
-}
-
-input#authPassword:focus {
-  width: 250px;
-}
-
 span::-webkit-scrollbar {
   display: none;
 }
@@ -183,6 +165,12 @@ input {
   margin: 10px;
 }
 
+div.colorPicker input {
+  margin: 0;
+  text-align: left;
+  caret-color: black;
+}
+
 .classNameInput {
   width: 80%;
 }
@@ -299,6 +287,10 @@ button {
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   cursor: crosshair;
+}
+
+pre {
+  padding: 0;
 }
 
 .propertiesOption>button {

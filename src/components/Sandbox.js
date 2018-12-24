@@ -66,7 +66,7 @@ class Sandbox extends Component {
     if (this.props.currentElement === div.key) {
       divStyle = Object.assign({}, divStyle, {outline: 'solid 2px red'})
     }
-    const { updateDiv, currentElement, setCurrent } = this.props;
+    const { updateDiv, setCurrent } = this.props;
 
     return <Rnd
       key={div.key}

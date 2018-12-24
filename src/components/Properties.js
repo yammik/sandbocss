@@ -78,7 +78,7 @@ class Properties extends Component {
   getDropMenu = (options, specific='') => {
     // 'specific' being the second part of a CSS property name, like 'border-*left*', 'margin-*top*'
     // need that to specify the style when we actually pass it in to div being rendered
-    return <DropMenu specific={specific} options={options} setValue={this.setValue} setName={this.setName} />
+    return <DropMenu key={specific} specific={specific} options={options} setValue={this.setValue} setName={this.setName} />
   }
 
   handleInputChange = (e) => {
@@ -102,7 +102,7 @@ class Properties extends Component {
 
   getColorPicker = () => {
     // this is for input for options requiring color
-    return <div className='colorPicker'><CompactPicker color={this.state.propValueToChange} onChangeComplete={this.handleChangeComplete} /></div>
+    return <div className='colorPicker' key={this.state.propValueToChange}><CompactPicker style={{'text-align': '', 'margin': '0px'}} color={this.state.propValueToChange} onChangeComplete={this.handleChangeComplete} /></div>
   }
 
   openForm = () => {
@@ -155,7 +155,7 @@ class Properties extends Component {
 
   makeAs = (properties, key) => {
     // this makes the tags for each CSS property displaying their name, in an ul
-    const anchors = properties[key].map(x => <a href="#" name={x.name} key={x.name} onClick={this.handleClick}>{x.name}</a>);
+    const anchors = properties[key].map(property => <a href="/" name={property.name} key={property.name} onClick={this.handleClick}>{property.name}</a>);
     const result = [];
     anchors.forEach((a, i) => {
       result.push(a);
@@ -171,8 +171,7 @@ class Properties extends Component {
     return (
       <div id="properties">
         <ul>
-          {Object.keys(properties).map(
-            propKey =>
+          {Object.keys(properties).map(propKey =>
             <li key={propKey}>
               {propKey}
               <span>{this.makeAs(properties, propKey)}</span>

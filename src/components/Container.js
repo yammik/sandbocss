@@ -269,7 +269,7 @@ class Container extends Component {
     // grab all classNames from flattened divs
     const divs = this.flattenDivsArray(this.state.divs);
     const uniqueStyles = this.getUniqueStyles(divs);
-    return uniqueStyles.map(x => Object.keys(x)[0]);
+    return uniqueStyles.map(style => Object.keys(style)[0]);
   }
 
   align = (direction) => {
@@ -377,13 +377,6 @@ class Container extends Component {
     })
   }
 
-  setColor = (rgba) => {
-    const style = {
-      ['background-color']: `rgba(${rgba})`
-    }
-    this.addStyle(style);
-  }
-
   // ~~~~~~~~~~~ END modify div data ~~~~~~~~~~
 
 
@@ -397,12 +390,11 @@ class Container extends Component {
         {
           mode === 'interactive' ?
           <InteractiveCtrls
-            updateDiv={this.updateDiv}
             addDiv={this.addDiv}
             removeDiv={this.removeDiv}
             align={this.align}
             move={this.move}
-            setColor={this.setColor}
+            addStyle={this.addStyle}
             resize={this.resize} />
              :
           <Controls

@@ -3,8 +3,8 @@ import ClassNameForm from "./ClassNameForm";
 import { ChromePicker, MaterialPicker } from 'react-color';
 
 class InteractiveCtrls extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       color: '',
       windowWidth: window.innerWidth,
@@ -15,8 +15,11 @@ class InteractiveCtrls extends Component {
     this.setState({
       color: color.rgb,
     });
-
-    this.props.setColor(Object.values(color.rgb));
+    // debugger
+    this.props.addStyle({
+      'background-color': `rgba(${Object.values(color.rgb).join(',')})`
+    })
+    // this.props.setColor(Object.values(color.rgb));
   };
 
   componentDidMount() {

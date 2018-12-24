@@ -32,7 +32,7 @@ class Output extends Component {
 
   defaultProp = div => {
     return (
-      `  left: ${div.x}px;\n  top: ${div.y}px;\n  `
+      `  left: ${Math.floor(div.x)}px;\n  top: ${Math.floor(div.y)}px;\n  `
     )
   }
 
@@ -65,13 +65,14 @@ class Output extends Component {
   }
 
   renderCode = div => {
+    const { sandboxWidth, sandboxHeight } = this.props;
     if (Object.keys(div.style).length) {
       return (
         <code key={div.key}>
           {'.'+this.formatClassName(div.className)+' {'}<br/>
-          {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
-          {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
-          {this.defaultProp(div)}<br/>
+          {'  width: '+Math.round(Math.floor(div.width/sandboxWidth*100))+'%;'}<br/>
+          {'  height: '+Math.round(Math.floor(div.height/sandboxHeight*100))+'%;'}<br/>
+          {this.defaultProp(div)}
           {this.formatCSS(div.style)}
           <br/>
           {'}'}<br/><br/>
@@ -79,7 +80,6 @@ class Output extends Component {
         </code>
       )
     }
-    const { sandboxWidth, sandboxHeight } = this.props;
     return (
       <code key={div.key}>
         {'.'+this.formatClassName(div.className)+' {'}<br/>

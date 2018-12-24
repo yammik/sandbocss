@@ -69,19 +69,15 @@ class Container extends Component {
   keyDownResize = (e) => {
     switch (e.keyCode) {
       case 38:
-        console.log('yDown');
         this.resize('yDown');
         break;
       case 40:
-        console.log('yUp');
         this.resize('yUp');
         break;
       case 37:
-        console.log('xDown');
         this.resize('xDown');
         break;
       case 39:
-        console.log('xUp');
         this.resize('xUp');
         break;
       default:
@@ -90,22 +86,17 @@ class Container extends Component {
   }
 
   keyDownMove = (e) => {
-    console.log('moveeeee', e.keyCode);
     switch (e.keyCode) {
       case 38:
-        console.log('UP');
         this.move('up');
         break;
       case 40:
-        console.log('DOWN');
         this.move('down');
         break;
       case 37:
-        console.log('LEFT');
         this.move('left');
         break;
       case 39:
-        console.log('RIGHT');
         this.move('right');
         break;
       default:
@@ -114,7 +105,6 @@ class Container extends Component {
   }
 
   handleKeyup = (e) => {
-    console.log('keyup');
     if (e.keyCode === 16) {
       document.removeEventListener('keydown', this.keyDownResize);
       this.setState({
@@ -204,7 +194,6 @@ class Container extends Component {
     this.setState(prevState => {
         const newX = document.getElementById(divKey).getBoundingClientRect().left-document.getElementById('sandbox').getBoundingClientRect().left;
         const newY = document.getElementById(divKey).getBoundingClientRect().top-document.getElementById('sandbox').getBoundingClientRect().top;
-        console.log('\n');
 
         const selectedDiv = this.findDiv(divKey);
         const newDiv = {
@@ -293,7 +282,6 @@ class Container extends Component {
   }
 
   move = (direction) => {
-    console.log('moveeeeee')
     const div = this.findCurrent();
     if (div) {
       const newClass = div.className.replace(/ center| left| right/,'');

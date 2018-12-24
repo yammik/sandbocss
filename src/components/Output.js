@@ -45,6 +45,7 @@ class Output extends Component {
   }
 
   formatCSS = styleObj => {
+    // debugger
     const style = this.props.mode === 'interactive' && JSON.stringify(styleObj).includes('color') ?
       JSON.stringify(styleObj).replace(/"|{|}/g, '').replace(/:/, ': ') :
       JSON.stringify(styleObj).replace(/"|{|}/g, '').replace(/:/g, ': ').split(',').map(str => `  ${str};`).join('\n')
@@ -68,6 +69,9 @@ class Output extends Component {
       return (
         <code key={div.key}>
           {'.'+this.formatClassName(div.className)+' {'}<br/>
+          {'  width: '+Math.round(div.width/sandboxWidth*100)+'%;'}<br/>
+          {'  height: '+Math.round(div.height/sandboxHeight*100)+'%;'}<br/>
+          {this.defaultProp(div)}<br/>
           {this.formatCSS(div.style)}
           <br/>
           {'}'}<br/><br/>
@@ -96,10 +100,9 @@ class Output extends Component {
 
     const cssCode = this.props.mode === 'classic' ?
       stylesUnique.map(style => this.renderCodeWithCleanStyleObj(style))
-      : this.props.divs.map(div => {
-        return this.renderCode(div);
-      })
+      : this.props.divs.map(div => this.renderCode(div))
 
+    // the code that would be copied to clipboard
     const cssCodeInStr = cssCode.length ? cssCode.map(code => code.props.children.filter(x => typeof x === 'string').join('')).join('\n') : '';
 
     return (

@@ -7,7 +7,7 @@ class InteractiveCtrls extends Component {
     super()
     this.state = {
       color: '',
-      windowWidth: 1400,
+      windowWidth: window.innerWidth,
     }
   }
 
@@ -32,7 +32,6 @@ class InteractiveCtrls extends Component {
       align,
       move,
       resize,
-      setColor
     } = this.props;
 
     return (
@@ -58,12 +57,23 @@ class InteractiveCtrls extends Component {
           <button onClick={() => move('left')}>
             <span role="img" aria-label="left">◀️</span>
           </button>
-          <button onClick={() => move('down')}>
-            <span role="img" aria-label="down">🔽</span>
-          </button>
-          <button onClick={() => move('right')}>
-            <span role="img" aria-label="right">▶️</span>
-          </button>
+          {this.state.windowWidth > 1034
+            ? <><button onClick={() => move('down')}>
+              <span role="img" aria-label="down">🔽</span>
+              </button>
+              <button onClick={() => move('right')}>
+                <span role="img" aria-label="right">▶️</span>
+              </button>
+              </>
+            : <><button onClick={() => move('right')}>
+                <span role="img" aria-label="right">▶️</span>
+              </button>
+              <button onClick={() => move('down')}>
+                <span role="img" aria-label="down">🔽</span>
+              </button>
+              </>
+          }
+
         </div>
 
         <div id="sizeCtrl">
@@ -82,7 +92,13 @@ class InteractiveCtrls extends Component {
           </button>
         </div>
 
-        <div className='colorPicker'>{this.state.windowWidth > 1300 ? <ChromePicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} /> : <MaterialPicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} />}</div>
+        <div
+          className='colorPicker'>
+          {this.state.windowWidth > 1300
+            ? <ChromePicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} />
+            : <MaterialPicker color={this.state.color} alpha={this.state.alpha} onChangeComplete={this.handleChangeComplete} />
+          }
+        </div>
       </div>
     )
   }

@@ -1,4 +1,4 @@
-// this is the list of all CSS properties, gropued by the first letter (which probably isn't that practical, might change later)
+// this is the list of all CSS properties, grouped by the first letter (which probably isn't that practical, might change later)
 // for each obj, name is the name of the property
 // values are either a string or array, depending on if the options have further specification
   // e.g. 'border' property has 'width style color' because qualities of a border can be individually specified as following:
@@ -68,8 +68,8 @@ const properties = {
         number: 'number'
       },
       {
-        name: 'boxShadow',
-        values: 'hOffset vOffset blur spread color',
+        name: 'box-shadow',
+        values: 'h-offset v-offset blur spread color',
         hOffset: 'number',
         vOffset: 'number',
         blur: 'number',
@@ -77,7 +77,7 @@ const properties = {
         color: 'color'
       },
       {
-        name: 'boxSizing',
+        name: 'box-sizing',
         values: ["content-box", "border-box", "initial", "inherit"]
       }
     ],

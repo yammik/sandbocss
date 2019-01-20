@@ -3,7 +3,7 @@ import { CompactPicker } from 'react-color';
 import DropMenu from './DropMenu';
 
 // properties is all of the CSS properties
-import { properties } from './propertiesArray';
+import { CSSProps } from './propertiesArray';
 
 // this class sends information about the style back to controls
 // controls gives the info to container which takes the information and adds/modifies the style for the currently selected Div
@@ -110,24 +110,30 @@ class Properties extends Component {
     // when user clicks on a property to change, look up the object with that name in the list of all CSS properties as defined in ./propertiesArray.js
     const pName = this.state.propNameToChange;
     // pName[0] because the properties are grouped together in an object by the first letter
-    const propObj = properties[pName[0]].find(obj => obj.name === pName);
+    const propObj = CSSProps[pName[0]].find(obj => obj.name === pName);
     let form = [];
     const { values } = propObj;
 
     // values are either a string or array, depending on if the options have further specification
     // see lines 4-5 in ./propertiesArray.js for more an example
-    if (typeof values === 'string') {
-      const specificProperties = values.split(' ');
-      // this is really ugly because of the flat structure of the property objects in ./propertiesArray.js.
-      // if information is nested, it would be more organized
-      // but this works for now...for now.
-      // splitting the string values goes allows specification of a property, like 'border-width' and 'border-color'
-      // the input required for 'border-width' is 'number'. Therefore obj['width'] = 'number', or obj['color'] = 'color', or obj['style'] = [ /* some array */]
-      // the block below basically does this for every item produced by splitting the string that specifies which values are available
-      specificProperties.forEach(prprtyKey => {
-        const specPropValue = propObj[prprtyKey];
-        form = this.formGen(form, propObj, specPropValue, prprtyKey)
+    if (propObj.takes) {
+      Object.keys(propObj.takes).forEach(prprtyKey => {
+        const specificPropValue = propObj.takes[prprtyKey];
+        form = this.formGen(form, propObj, specificPropValue, prprtyKey);
       })
+    // }
+    // if (typeof values === 'string') {
+    //   const specificProperties = values.split(' ');
+    //   // this is really ugly because of the flat structure of the property objects in ./propertiesArray.js.
+    //   // if information is nested, it would be more organized
+    //   // but this works for now...for now.
+    //   // splitting the string values goes allows specification of a property, like 'border-width' and 'border-color'
+    //   // the input required for 'border-width' is 'number'. Therefore obj['width'] = 'number', or obj['color'] = 'color', or obj['style'] = [ /* some array */]
+    //   // the block below basically does this for every item produced by splitting the string that specifies which values are available
+    //   specificProperties.forEach(prprtyKey => {
+    //     const specPropValue = propObj[prprtyKey];
+    //     form = this.formGen(form, propObj, specPropValue, prprtyKey)
+    //   })
     } else {
       // if the property has a predetermined set of options to pick from, make a drop menu
       form = this.formGen(form, propObj, values);
@@ -171,10 +177,10 @@ class Properties extends Component {
     return (
       <div id="properties">
         <ul>
-          {Object.keys(properties).map(propKey =>
+          {Object.keys(CSSProps).map(propKey =>
             <li key={propKey}>
               <span className="letter">{propKey}</span>
-              <span className="names">{this.makeAs(properties, propKey)}</span>
+              <span className="names">{this.makeAs(CSSProps, propKey)}</span>
 
               { this.state.propNameToChange[0] === propKey ? this.openForm() : null }
 

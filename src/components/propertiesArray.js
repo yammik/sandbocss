@@ -6,7 +6,7 @@
 // if value is string, each need to have input and be independently managed
 
 
-const properties = {
+const CSSProps = {
     a: [
       {
         name: 'align-content',
@@ -25,56 +25,66 @@ const properties = {
       {
         name: 'background-color',
         values: 'color',
-        color: 'color'
       },
       {
         name: 'border',
         values: 'width style color',
-        width: 'number',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        color: 'color'
+        takes: {
+          width: 'number',
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          color: 'color',
+        }
       },
       {
         name: 'border-top',
         values: 'width style color',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        width: 'number',
-        color: 'color'
+        takes: {
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          width: 'number',
+          color: 'color',
+        }
       },
       {
         name: 'border-left',
         values: 'width style color',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        width: 'number',
-        color: 'color'
+        takes: {
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          width: 'number',
+          color: 'color',
+        }
       },
       {
         name: 'border-bottom',
         values: 'width style color',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        width: 'number',
-        color: 'color'
+        takes: {
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          width: 'number',
+          color: 'color',
+        }
       },
       {
         name: 'border-right',
         values: 'width style color',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        width: 'number',
-        color: 'color'
+        takes: {
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          width: 'number',
+          color: 'color',
+        }
       },
       {
         name: 'bottom',
         values: 'number',
-        number: 'number'
       },
       {
         name: 'box-shadow',
         values: 'h-offset v-offset blur spread color',
-        hOffset: 'number',
-        vOffset: 'number',
-        blur: 'number',
-        spread: 'number',
-        color: 'color'
+        takes: {
+          hOffset: 'number',
+          vOffset: 'number',
+          blur: 'number',
+          spread: 'number',
+          color: 'color',
+        }
       },
       {
         name: 'box-sizing',
@@ -89,24 +99,27 @@ const properties = {
       {
         name: 'color',
         values: 'color',
-        color: 'color'
       },
       {
         name: 'columns',
         values: 'width count',
-        width: 'number',
-        count: 'number'
+        takes: {
+          width: 'number',
+          count: 'number',
+        }
       },
       {
         name: 'column-rule',
         values: 'width style color',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        width: 'number',
-        color: 'color'
+        takes: {
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          width: 'number',
+          color: 'color',
+        }
       },
       {
         name: 'column-span',
-        values: ['1', 'all']
+        values: ['1', 'all'],
       }
     ],
     d: [
@@ -119,9 +132,11 @@ const properties = {
       {
         name: 'flex',
         values: 'grow shrink basis',
-        grow: 'number',
-        shrink: 'number',
-        basis: 'number'
+        takes: {
+          grow: 'number',
+          shrink: 'number',
+          basis: 'number',
+        }
       },
       {
         name: 'float',
@@ -139,7 +154,6 @@ const properties = {
       {
         name: 'height',
         values: 'number',
-        number: 'number'
       }
     ],
     j: [
@@ -152,17 +166,18 @@ const properties = {
       {
         name: 'left',
         values: 'number',
-        number: 'number'
       }
     ],
     m: [
       {
         name: 'margin',
         values: 'top right bottom left',
-        top: 'number',
-        right: 'number',
-        bottom: 'number',
-        left: 'number'
+        takes: {
+          top: 'number',
+          right: 'number',
+          bottom: 'number',
+          left: 'number',
+        }
       }
     ],
     o: [
@@ -173,14 +188,15 @@ const properties = {
       {
         name: 'opacity',
         values: 'number',
-        number: 'number'
       },
       {
         name: 'outline',
         values: 'width style color',
-        width: 'number',
-        style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
-        color: 'color'
+        takes: {
+          width: 'number',
+          style: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"],
+          color: 'color'
+        },
       },
       {
         name: 'overflow',
@@ -188,69 +204,67 @@ const properties = {
       },
       {
         name: 'overflow-y',
-        values: ["visible", "hidden", "scroll", "auto"]
+        values: ["visible", "hidden", "scroll", "auto"],
       },
       {
         name: 'overflow-x',
-        values: ["visible", "hidden", "scroll", "auto"]
+        values: ["visible", "hidden", "scroll", "auto"],
       }
     ],
     p: [
       {
         name: 'padding',
         values: 'top right bottom left',
-        top: 'number',
-        right: 'number',
-        bottom: 'number',
-        left: 'number'
+        takes: {
+          top: 'number',
+          right: 'number',
+          bottom: 'number',
+          left: 'number',
+        },
       },
       {
         name: 'position',
-        values: ["static", "absolute", "fixed", "relative", "sticky"]
+        values: ["static", "absolute", "fixed", "relative", "sticky"],
       }
     ],
     r: [
       {
         name: 'resize',
-        values: ["none", "both", "horizontal", "vertical"]
+        values: ["none", "both", "horizontal", "vertical"],
       },
       {
         name: 'right',
         values: 'number',
-        number: 'number'
       }
     ],
     t: [
       {
         name: 'top',
         values: 'number',
-        number: 'number'
       }
     ],
     v: [
       {
         name: 'vertical-align',
-        values: ["baseline", "sub", "super", "top", "middle", "bottom"]
+        values: ["baseline", "sub", "super", "top", "middle", "bottom"],
       },
       {
         name: 'visibility',
-        values: ["visible", "hidden", "collapse"]
+        values: ["visible", "hidden", "collapse"],
       }
     ],
     w: [
       {
         name: 'width',
         values: 'number',
-        number: 'number'
       }
     ],
     z: [
       {
         name: 'z-index',
         values: 'number',
-        number: 'number'
       }
     ],
 }
 
-export { properties };
+export { CSSProps };

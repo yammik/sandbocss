@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-// {div.className.includes('center') ? this.centered() : div.className.includes('left') ? this.lefted() : div.className.includes('right') ? this.righted() : this.defaultProp(div) }
 
 class Output extends Component {
   state = {
@@ -29,7 +28,6 @@ class Output extends Component {
   }
 
   formatCSS = styleObj => {
-    // debugger
     const style = this.props.mode === 'interactive' && JSON.stringify(styleObj).includes('color') ?
       JSON.stringify(styleObj).replace(/"|{|}/g, '').replace(/:/, ': ') :
       JSON.stringify(styleObj).replace(/"|{|}/g, '').replace(/:/g, ': ').split(',').map(str => `  ${str};`).join('\n')

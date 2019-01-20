@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ClassNameForm from "./ClassNameForm";
 import { ChromePicker, MaterialPicker } from 'react-color';
+import ClassNameForm from "./ClassNameForm";
 
 class InteractiveCtrls extends Component {
   constructor(props) {

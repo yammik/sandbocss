@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import { Grid, Row, Col, Alert } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Grid, Row, Col, Alert } from 'react-bootstrap';
 
-const Api = require('../lib/Api.js')
+const Api = require('../lib/Api.js');
 
+
+// This component is not yet implemented. Will eventually be for auth feature
 class Page extends Component {
 
   render() {
@@ -44,7 +46,6 @@ class Page extends Component {
     let prevPageId = this.props.match.params.id
     let newPageId = nextProps.match.params.id
 
-    // check if page component is being reloaded with new page props && reload page from Api
     if (prevPageId !== newPageId) {
       this.setState({
         page: {

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { v4 } from 'uuid';
+
 import InteractiveCtrls from "./InteractiveCtrls";
 import Sandbox from "./Sandbox";
 import Output from "./Output";
-import { v4 } from 'uuid';
-import Controls from "./Controls"
+import Controls from "./Controls";
 
 // the top level of app
 

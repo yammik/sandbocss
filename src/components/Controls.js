@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import * as htmlScreenCaptureJs from 'html-screen-capture-js';
 import ClassNameForm from "./ClassNameForm";
 import Properties from "./Properties";
-import * as htmlScreenCaptureJs from 'html-screen-capture-js';
 
 class Controls extends Component {
 

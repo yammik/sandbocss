@@ -152,7 +152,7 @@ class Properties extends Component {
       form = this.formGen(form, propObj, values);
     }
     return (
-      <div className='options'>
+      <div className='options w3-show w3-dropdown-content' >
         {form}
       </div>
     )
@@ -182,7 +182,8 @@ class Properties extends Component {
       result.push(a);
       if (i !== anchors.length-1) {
         // insert divider
-        result.push(' | ')
+        // .join will turn the Options components into strings lul silly me
+        result.push(' | ');
       }
     })
     return result;
@@ -197,9 +198,7 @@ class Properties extends Component {
             <li key={propKey}>
               <span className="letter">{propKey}</span>
               <span className="property-names">{this.makeAs(CSSProps[propKey])}</span>
-
-              { this.state.propNameToChange[0] === propKey ? this.openForm() : null /* need this to automatically close  */ }
-
+              { this.state.propNameToChange[0] === propKey ? this.openForm() : null /* only display the options form, under the right group, if selected */ }
             </li>
           )}
         </ul>

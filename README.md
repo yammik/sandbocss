@@ -1,34 +1,16 @@
-# CSS sandbox
-  - Select from preset layouts, return CSS code that can produce the selected layout
-    e.g. Parent div spanning 70% of width, child div with 500px width centered within parent div
+# SandboCSS 
+##### ('sandbox' hahahhahaha get it)
+A CSS cheatsheet and sandbox in one app. ~~A cheatbox, if you will...wait no, sandsheet? Seatshox?~~<br/>
+Most available CSS properties you can apply to an HTML element are displayed on the left panel, organized alphabetically.<br/>
+CSS is a pain sometimes. Maybe by playing around with this sandbox you will get a better understanding of what certain properties do. :><br/>
 
-  - Click & drag
-    e.g. click & drag lower right corner of child div to change dimensions
-         click & drag child div itself to change arrangement / alignment
+### Usage
+This app lives [here](https://sandbocss.herokuapp.com/).<br/>
+Or clone this repo and run ```npm install && npm start``` in your Terminal.
 
-  - Add elements to sandbox
-    when click 'make div', make a child element inside currently selected element
-    default selected element is 'window'
-    give id/class to element as created (default name will be auto-incremented)
+### Powered by
+- [RnD](https://github.com/bokuweb/react-rnd) : interactive mode runs on this for resizing and repositioning of the divs
+- [react-copy-to-clipboard](https://github.com/nkbt/react-copy-to-clipboard) : copy the output to clipboard
+- [styled-components](https://github.com/styled-components/styled-components) : the component that takes a defined style and applies it to the element
+- [html-screen-capture-js](https://github.com/html-screen-capture-js/html-screen-capture-js) : for saving displayed output image; feature coming soon
 
-  - Provide preset color palette, also generate own
-    5-color palette: 3 base, 2 accents
-    color palette to change color of selected element on screen
-
-  - Save favorite layouts
-    name saved layout
-
-  - fullscreen mode?
-
-  Stretch feature:
-  - animation
-  - user save favorite layout
-
-
-  * look up several common layouts (presets)
-
-
-
-
-//TODO:
-some attr gets -number appended

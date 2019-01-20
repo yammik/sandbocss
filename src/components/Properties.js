@@ -18,6 +18,10 @@ class Properties extends Component {
     }
   }
 
+  camelToDash = (name) => {
+    return name.split('').map(letter => letter.toLowerCase() !== letter ? `-${letter.toLowerCase()}` : letter).join('');
+  }
+
   componentDidUpdate(prevProps, prevState) {
     // TODO: should be able to update right when user clicks on the value of the CSS prop without storing it in state
     // currently, this component stores in the state the CSS prop to be changed and its value ...
@@ -25,9 +29,9 @@ class Properties extends Component {
     if (this.state.propValueToChange !== prevState.propValueToChange) {
       let style;
       if (this.state.name) {
-        style = { [this.state.name]: this.state.propValueToChange};
+        style = { [this.camelToDash(this.state.name)]: this.state.propValueToChange};
       } else {
-        style = { [this.state.propNameToChange]: this.state.propValueToChange};
+        style = { [this.camelToDash(this.state.propNameToChange)]: this.state.propValueToChange};
       }
       this.props.addStyle(style);
     }
@@ -68,11 +72,23 @@ class Properties extends Component {
     ))
   }
 
-  handleChangeComplete = (color, e) => {
+  handleChangeComplete = (color) => {
     // this is only for options requiring color palette
-    this.setState({
-      propValueToChange: color.hex,
-    });
+    const { propValueToChange, propNameToChange } = this.state;
+    const colorValue = color.hex;
+
+    // ORDER MATTERS FOR BOX SHADOW. Should manage the value for box-shadow in an array or something
+    if (propNameToChange === 'box-shadow') {
+      this.setState(prevState => {
+        return {
+          propValueToChange: `${prevState.propValueToChange.length > 0 ? prevState.propValueToChange : ""} ${colorValue}`,
+        }
+      })
+    } else {
+      this.setState({
+        propValueToChange: color.hex,
+      });
+    }
   };
 
   getDropMenu = (options, specific='') => {
@@ -82,14 +98,25 @@ class Properties extends Component {
   }
 
   handleInputChange = (e) => {
-    this.setState({
-      // number inputs either have suffix 'px', or no suffix in the case of opacity and z-index
-      propValueToChange: 'opacity z-index'.includes(e.target.name) ? e.target.value : `${e.target.value}px`,
-      // because of the way form automatically appends the type of input for some of the options to the CSS property name, ...
-      // need to remove for those requiring some number input ...
-      // otherwise, we'd get property name being passed in as something like 'opacity-number'
-      name: e.target.name.replace('-number',''),
-    })
+    const { propValueToChange, propNameToChange } = this.state;
+    const newValue = e.target.value;
+    if (propNameToChange === 'box-shadow') {
+      this.setState(prevState => {
+        return {
+          propValueToChange: `${prevState.propValueToChange.length > 0 ? prevState.propValueToChange : ""} ${newValue}px`,
+        }
+      })
+    } else {
+      this.setState({
+        // number inputs either have suffix 'px', or no suffix in the case of opacity and z-index
+        propValueToChange: 'opacity z-index'.includes(e.target.name) ? e.target.value : `${e.target.value}px`,
+        // because of the way form automatically appends the type of input for some of the options to the CSS property name, ...
+        // need to remove for those requiring some number input ...
+        // otherwise, we'd get property name being passed in as something like 'opacity-number'
+        name: e.target.name.replace('-number',''),
+      })
+    }
+
   }
 
   getInputTag = (obj, key) => {
@@ -114,26 +141,11 @@ class Properties extends Component {
     let form = [];
     const { values } = propObj;
 
-    // values are either a string or array, depending on if the options have further specification
-    // see lines 4-5 in ./propertiesArray.js for more an example
     if (propObj.takes) {
       Object.keys(propObj.takes).forEach(prprtyKey => {
         const specificPropValue = propObj.takes[prprtyKey];
         form = this.formGen(form, propObj, specificPropValue, prprtyKey);
       })
-    // }
-    // if (typeof values === 'string') {
-    //   const specificProperties = values.split(' ');
-    //   // this is really ugly because of the flat structure of the property objects in ./propertiesArray.js.
-    //   // if information is nested, it would be more organized
-    //   // but this works for now...for now.
-    //   // splitting the string values goes allows specification of a property, like 'border-width' and 'border-color'
-    //   // the input required for 'border-width' is 'number'. Therefore obj['width'] = 'number', or obj['color'] = 'color', or obj['style'] = [ /* some array */]
-    //   // the block below basically does this for every item produced by splitting the string that specifies which values are available
-    //   specificProperties.forEach(prprtyKey => {
-    //     const specPropValue = propObj[prprtyKey];
-    //     form = this.formGen(form, propObj, specPropValue, prprtyKey)
-    //   })
     } else {
       // if the property has a predetermined set of options to pick from, make a drop menu
       form = this.formGen(form, propObj, values);
@@ -161,7 +173,9 @@ class Properties extends Component {
 
   makeAs = (properties, key) => {
     // this makes the tags for each CSS property displaying their name, in an ul
-    const anchors = properties[key].map(property => <a href="/" name={property.name} key={property.name} onClick={this.handleClick}>{property.name}</a>);
+    const anchors = properties[key].map(property => {
+      return <a href="/" name={property.name} key={property.name} onClick={this.handleClick}>{property.name}</a>
+    });
     const result = [];
     anchors.forEach((a, i) => {
       result.push(a);

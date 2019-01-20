@@ -1,4 +1,4 @@
-# SandboCSS 
+# SandboCSS
 ##### ('sandbox' hahahhahaha get it)
 A CSS cheatsheet and sandbox in one app. ~~A cheatbox, if you will...wait no, sandsheet? Seatshox?~~<br/>
 Most available CSS properties you can apply to an HTML element are displayed on the left panel, organized alphabetically.<br/>
@@ -17,3 +17,5 @@ Click a CSS property and enter or select a value to apply the style to the curre
 - [styled-components](https://github.com/styled-components/styled-components) : the component that takes a defined style and applies it to the element
 - [html-screen-capture-js](https://github.com/html-screen-capture-js/html-screen-capture-js) : for saving displayed output image; feature coming soon
 
+### Future works
+- hover over a property to display explanation or link?

@@ -1,11 +1,11 @@
 # SandboCSS 
 ##### ('sandbox' hahahhahaha get it)
-A CSS cheatsheet and sandbox in one app. ~~A cheatbox, if you will...wait no, sandsheet? Seatshox?~~
-Most available CSS properties you can apply to an HTML element are displayed on the left panel, organized alphabetically.
-CSS is a pain sometimes. Maybe by playing around with this sandbox you will get a better understanding of what certain properties do. :>
+A CSS cheatsheet and sandbox in one app. ~~A cheatbox, if you will...wait no, sandsheet? Seatshox?~~<br/>
+Most available CSS properties you can apply to an HTML element are displayed on the left panel, organized alphabetically.<br/>
+CSS is a pain sometimes. Maybe by playing around with this sandbox you will get a better understanding of what certain properties do. :><br/>
 
 ### Usage
-This app lives [here](https://sandbocss.herokuapp.com/)
+This app lives [here](https://sandbocss.herokuapp.com/).<br/>
 Or clone this repo and run ```npm install && npm start``` in your Terminal.
 
 ### Powered by

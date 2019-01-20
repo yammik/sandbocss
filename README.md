@@ -6,7 +6,10 @@ CSS is a pain sometimes. Maybe by playing around with this sandbox you will get 
 
 ### Usage
 This app lives [here](https://sandbocss.herokuapp.com/).<br/>
-Or clone this repo and run ```npm install && npm start``` in your Terminal.
+Or clone this repo and run ```npm install && npm start``` in your Terminal.<br/>
+Classic mode is the most fun to play with as of this writing.<br/>
+Simply input a class name, and click the ➕ button to create a div with the given class name. A red outline indicates the div is selected. While a div is selected, creating a new div will nest the new one inside the currently selected one.<br/>
+Click a CSS property and enter or select a value to apply the style to the currently selected div!
 
 ### Powered by
 - [RnD](https://github.com/bokuweb/react-rnd) : interactive mode runs on this for resizing and repositioning of the divs

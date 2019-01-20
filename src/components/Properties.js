@@ -73,7 +73,7 @@ class Properties extends Component {
     ))
   }
 
-  handleChangeComplete = (color) => {
+  handleColorSelect = (color) => {
     // this is only for options requiring color palette
     const { propNameToChange } = this.state;
     const colorValue = color.hex;
@@ -120,7 +120,7 @@ class Properties extends Component {
 
   }
 
-  getInputTag = (obj, key) => {
+  getInputField = (obj, key) => {
     // this is for making input field for options requiring a number input
     // obj is the CSS property currently being specified
     // key is where you get the type of option available for the property
@@ -130,11 +130,11 @@ class Properties extends Component {
 
   getColorPicker = () => {
     // this is for input for options requiring color
-    return <div className='colorPicker' key={this.state.propValueToChange}><CompactPicker style={{'text-align': '', 'margin': '0px'}} color={this.state.propValueToChange} onChangeComplete={this.handleChangeComplete} /></div>
+    return <div className='colorPicker' key={this.state.propValueToChange}><CompactPicker style={{'text-align': '', 'margin': '0px'}} color={this.state.propValueToChange} onChangeComplete={this.handleColorSelect} /></div>
   }
 
   openForm = () => {
-    // this creates input field for options (input for number, dropMenu, colorPicker)
+    // this creates input field for options (input for number, dropMenu for array of values, colorPicker for color)
     // when user clicks on a property to change, look up the object with that name in the list of all CSS properties as defined in ./propertiesArray.js
     const pName = this.state.propNameToChange;
     // pName[0] because the properties are grouped together in an object by the first letter
@@ -165,7 +165,7 @@ class Properties extends Component {
       return bucket.concat(this.getDropMenu(values))
     }
     if (values === 'number') {
-      return bucket.concat(this.getInputTag(obj, key))
+      return bucket.concat(this.getInputField(obj, key))
     }
     if (values === 'color') {
       return bucket.concat(this.getColorPicker());
@@ -174,7 +174,9 @@ class Properties extends Component {
 
   makeAs = (propertiesArray) => {
     // this makes the tags for each CSS property displaying their name, in an ul
-    const anchors = propertiesArray.map(property => <Options property={property} handleClick={this.handleClick} />);
+    const anchors = propertiesArray.map(property =>
+      <Options property={property} handleClick={this.handleClick} />
+    );
     const result = [];
     anchors.forEach((a, i) => {
       result.push(a);
@@ -196,7 +198,7 @@ class Properties extends Component {
               <span className="letter">{propKey}</span>
               <span className="property-names">{this.makeAs(CSSProps[propKey])}</span>
 
-              { this.state.propNameToChange[0] === propKey ? this.openForm() : null }
+              { this.state.propNameToChange[0] === propKey ? this.openForm() : null /* need this to automatically close  */ }
 
             </li>
           )}

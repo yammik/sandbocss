@@ -1,7 +1,6 @@
 * {
-  font-size: 18px;
-  font-family: 'Cutive Mono', monospace;
-
+  font-size: 14px;
+  font-family: 'Space Mono', monospace;
 }
 
 html, body {
@@ -104,7 +103,7 @@ code {
   font-size: 1em;
   color: white;
   text-align: center;
-  font-family: 'Cutive Mono', monospace;
+  font-family: 'Space Mono', monospace;
   background-color: rgba(55,55,55,0.3);
 }
 

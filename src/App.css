@@ -28,7 +28,7 @@ li>span.letter {
   padding-right: 10px;
 }
 
-li>span.names {
+li>span.property-names {
   font-weight: normal;
   /* padding-left: 8px; */
   overflow-x: scroll;

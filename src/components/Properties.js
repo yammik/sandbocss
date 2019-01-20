@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CompactPicker } from 'react-color';
 import DropMenu from './DropMenu';
+import Options from './Options';
 
 // properties is all of the CSS properties
 import { CSSProps } from './propertiesArray';
@@ -74,7 +75,7 @@ class Properties extends Component {
 
   handleChangeComplete = (color) => {
     // this is only for options requiring color palette
-    const { propValueToChange, propNameToChange } = this.state;
+    const { propNameToChange } = this.state;
     const colorValue = color.hex;
 
     // ORDER MATTERS FOR BOX SHADOW. Should manage the value for box-shadow in an array or something
@@ -98,7 +99,7 @@ class Properties extends Component {
   }
 
   handleInputChange = (e) => {
-    const { propValueToChange, propNameToChange } = this.state;
+    const { propNameToChange } = this.state;
     const newValue = e.target.value;
     if (propNameToChange === 'box-shadow') {
       this.setState(prevState => {
@@ -171,11 +172,9 @@ class Properties extends Component {
     }
   }
 
-  makeAs = (properties, key) => {
+  makeAs = (propertiesArray) => {
     // this makes the tags for each CSS property displaying their name, in an ul
-    const anchors = properties[key].map(property => {
-      return <a href="/" name={property.name} key={property.name} onClick={this.handleClick}>{property.name}</a>
-    });
+    const anchors = propertiesArray.map(property => <Options property={property} handleClick={this.handleClick} />);
     const result = [];
     anchors.forEach((a, i) => {
       result.push(a);
@@ -188,13 +187,14 @@ class Properties extends Component {
   }
 
   render() {
+    const initials = Object.keys(CSSProps);
     return (
       <div id="properties">
         <ul>
-          {Object.keys(CSSProps).map(propKey =>
+          {initials.map(propKey =>
             <li key={propKey}>
               <span className="letter">{propKey}</span>
-              <span className="names">{this.makeAs(CSSProps, propKey)}</span>
+              <span className="property-names">{this.makeAs(CSSProps[propKey])}</span>
 
               { this.state.propNameToChange[0] === propKey ? this.openForm() : null }
 

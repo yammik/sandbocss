@@ -19,3 +19,4 @@ Click a CSS property and enter or select a value to apply the style to the curre
 
 ### Future works
 - hover over a property to display explanation or link?
+- Change data format: add a key called 'unit' for each attribute, so it won't have to check for edge cases like opacity to add/remove a unit
